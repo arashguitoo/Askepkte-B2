@@ -93,7 +93,10 @@ header p{opacity:.92;font-size:.9rem}
 .namerow input{flex:1;padding:11px;border:1px solid var(--line);border-radius:10px}
 footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:40px;padding:0 16px}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-size:.85rem}
-.topbar a{color:var(--accent);text-decoration:none;font-weight:600}
+.backbtn{display:inline-flex;align-items:center;gap:6px;background:var(--paper-warm);
+  color:var(--accent-deep);text-decoration:none;font-weight:600;border:1px solid var(--line);
+  padding:8px 14px;border-radius:10px;font-size:.85rem;cursor:pointer}
+.backbtn:active{transform:translateY(1px)}
 .hide{display:none!important}
 </style>
 </head>
@@ -106,14 +109,17 @@ footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:40px;pad
 <div class="wrap">
   <!-- HOME -->
   <div id="home">
-    <div class="modgrid" id="modgrid"></div>
+    <div style="padding-top:14px">
+      <a class="backbtn" href="index.html">&larr; Zurück zur Startseite</a>
+    </div>
+    <div class="modgrid" id="modgrid" style="margin-top:16px"></div>
     <footer>Lern Deutsch mit Arash · Lektion 1 · Mein Beruf</footer>
   </div>
 
   <!-- PLAY -->
   <div id="play">
     <div class="topbar">
-      <a href="#" onclick="goHome();return false">&larr; Übersicht</a>
+      <a class="backbtn" href="#" onclick="goHome();return false">&larr; Zurück zur Übersicht</a>
       <span id="playprog">Aufgabe 1</span>
     </div>
     <div class="progress"><i id="bar"></i></div>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lern Deutsch mit Arash — Aspekte Beruf B2</title>
+<style>
+:root{
+  --accent:#1a6cb5; --accent-deep:#0e4576; --paper-warm:#dceaf6;
+  --ink:#1f2730; --muted:#5d6b78; --bg:#f4f7fb; --card:#fff; --line:#dfe6ee;
+  /* Lektionsfarben */
+  --c-l1:#1a6cb5; --c-l1-deep:#0e4576; --c-l1-soft:#dceaf6;
+  --c-l2:#2d6a6a; --c-l2-deep:#1d4747; --c-l2-soft:#d8eaea;
+  --c-l3:#b8841a; --c-l3-deep:#7a5800; --c-l3-soft:#fbf2cc;
+  --c-l4:#5e8c4f; --c-l4-deep:#3d5e34; --c-l4-soft:#dfeed6;
+  /* Zusatzmaterial */
+  --c-gr:#7a4d8c; --c-gr-deep:#5a3567; --c-gr-soft:#ecdef0;
+  --c-ko:#3f4a5a; --c-ko-deep:#28303c; --c-ko-soft:#e6e9ef;
+  --c-qz:#a85f1f; --c-qz-deep:#7a3e0d; --c-qz-soft:#f5ddc4;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;padding-bottom:50px}
+.hero{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;
+  padding:30px 16px 36px;text-align:center}
+.hero .cover{width:160px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.28);margin-bottom:18px}
+.hero h1{font-size:1.5rem;margin-bottom:6px}
+.hero p{opacity:.92;font-size:.95rem;max-width:520px;margin:0 auto}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+.section-title{font-size:1.15rem;color:var(--accent-deep);margin:30px 0 14px;font-weight:700}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.card{display:block;text-decoration:none;color:inherit;background:var(--card);
+  border:1px solid var(--line);border-radius:16px;padding:18px;
+  box-shadow:0 2px 10px rgba(14,69,118,.06);transition:transform .15s,box-shadow .15s;
+  border-top:5px solid var(--cc,var(--accent))}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(14,69,118,.13)}
+.card .lk{font-size:.72rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
+  color:var(--cc,var(--accent))}
+.card h3{font-size:1.12rem;margin:4px 0 4px;color:var(--cc-deep,var(--accent-deep))}
+.card .sub{color:var(--muted);font-size:.88rem;margin-bottom:10px}
+.badge{display:inline-block;background:var(--cc-soft,var(--paper-warm));
+  color:var(--cc-deep,var(--accent-deep));font-size:.72rem;padding:3px 9px;
+  border-radius:20px;margin:2px 3px 0 0;font-weight:600}
+.stat{font-size:.78rem;color:var(--muted);margin-top:11px}
+.small-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:40px;padding:0 16px}
+footer a{color:var(--accent)}
+/* color hooks */
+.card[data-c="l1"]{--cc:var(--c-l1);--cc-deep:var(--c-l1-deep);--cc-soft:var(--c-l1-soft)}
+.card[data-c="l2"]{--cc:var(--c-l2);--cc-deep:var(--c-l2-deep);--cc-soft:var(--c-l2-soft)}
+.card[data-c="l3"]{--cc:var(--c-l3);--cc-deep:var(--c-l3-deep);--cc-soft:var(--c-l3-soft)}
+.card[data-c="l4"]{--cc:var(--c-l4);--cc-deep:var(--c-l4-deep);--cc-soft:var(--c-l4-soft)}
+.card[data-c="gr"]{--cc:var(--c-gr);--cc-deep:var(--c-gr-deep);--cc-soft:var(--c-gr-soft)}
+.card[data-c="ko"]{--cc:var(--c-ko);--cc-deep:var(--c-ko-deep);--cc-soft:var(--c-ko-soft)}
+.card[data-c="qz"]{--cc:var(--c-qz);--cc-deep:var(--c-qz-deep);--cc-soft:var(--c-qz-soft)}
+.coming{opacity:.55;cursor:default;pointer-events:none}
+.coming .pill{float:right;font-size:.68rem;background:var(--line);color:var(--muted);
+  padding:3px 8px;border-radius:12px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="hero">
+  <img class="cover" src="cover.jpg" alt="Aspekte Beruf B2 — Buchcover">
+  <h1>Lern Deutsch mit Arash</h1>
+  <p>Begleitende Online-Übungen zum Lehrbuch <strong>Aspekte Beruf B2</strong> (Klett). Jede Lektion: 4 Module mit Passwort-Mechanik und Zertifikat.</p>
+</div>
+
+<div class="wrap">
+  <div class="section-title">Lektionen</div>
+  <div class="grid">
+
+    <a class="card" data-c="l1" href="lektion1-uebung.html">
+      <div class="lk">Lektion 1</div>
+      <h3>Mein Beruf</h3>
+      <div class="sub">Pendeln, Agentur für Arbeit, Soft Skills &amp; Anerkennung</div>
+      <div>
+        <span class="badge">Mittelfeld</span>
+        <span class="badge">Behördenbrief</span>
+        <span class="badge">Negation</span>
+        <span class="badge">E-Mail ordnen</span>
+      </div>
+      <div class="stat">120 Aufgaben · 4 Module · ~60 Minuten</div>
+    </a>
+
+    <div class="card coming" data-c="l2">
+      <span class="pill">in Arbeit</span>
+      <div class="lk">Lektion 2</div>
+      <h3>—</h3>
+      <div class="sub">folgt in Kürze</div>
+      <div class="stat">4 Module · Passwort-Mechanik</div>
+    </div>
+
+    <div class="card coming" data-c="l3">
+      <span class="pill">in Arbeit</span>
+      <div class="lk">Lektion 3</div>
+      <h3>—</h3>
+      <div class="sub">folgt in Kürze</div>
+      <div class="stat">4 Module · Passwort-Mechanik</div>
+    </div>
+
+    <div class="card coming" data-c="l4">
+      <span class="pill">in Arbeit</span>
+      <div class="lk">Lektion 4</div>
+      <h3>—</h3>
+      <div class="sub">folgt in Kürze</div>
+      <div class="stat">4 Module · Passwort-Mechanik</div>
+    </div>
+
+  </div>
+
+  <div class="section-title">Zusatzmaterial</div>
+  <div class="grid small-grid">
+    <div class="card coming" data-c="gr">
+      <span class="pill">geplant</span>
+      <div class="lk">Grammatik</div>
+      <h3>Grammatik kompakt</h3>
+      <div class="sub">Referenz + gemischte Übungen</div>
+    </div>
+    <div class="card coming" data-c="ko">
+      <span class="pill">geplant</span>
+      <div class="lk">Beruf</div>
+      <h3>Kommunikation im Beruf</h3>
+      <div class="sub">Telefon, E-Mail, Grafiken</div>
+    </div>
+    <div class="card coming" data-c="qz">
+      <span class="pill">geplant</span>
+      <div class="lk">Quiz</div>
+      <h3>Zufalls-Quiz</h3>
+      <div class="sub">30 zufällige Aufgaben</div>
+    </div>
+  </div>
+
+  <footer>
+    © Arash Guitoo · Lern Deutsch mit Arash · Für nicht-kommerzielle Bildungszwecke frei nutzbar.<br>
+    Didaktisch angelehnt an <em>Aspekte Beruf B2</em> (Klett); Texte und Charaktere sind eigens erstellt.
+  </footer>
+</div>
+
+<script data-goatcounter="https://aguitoo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lektion 1 — Mein Beruf · Lern Deutsch mit Arash</title>
+<style>
+:root{
+  --accent:#1a6cb5; --accent-deep:#0e4576; --paper-warm:#dceaf6;
+  --ink:#1f2730; --muted:#5d6b78; --bg:#f4f7fb; --card:#ffffff;
+  --ok:#2e8b57; --bad:#c0392b; --line:#dfe6ee;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.5;padding:0 0 60px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+header{background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  color:#fff;padding:24px 16px;text-align:center}
+header h1{font-size:1.4rem;margin-bottom:4px}
+header p{opacity:.92;font-size:.9rem}
+.modgrid{display:grid;gap:14px;margin-top:22px}
+.modcard{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px;box-shadow:0 2px 10px rgba(14,69,118,.06);position:relative}
+.modcard h3{font-size:1.1rem;color:var(--accent-deep);margin-bottom:4px}
+.modcard .sub{color:var(--muted);font-size:.88rem;margin-bottom:12px}
+.modcard.locked{opacity:.6}
+.lockrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+.lockrow input{flex:1;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:.9rem}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:10px;
+  padding:11px 18px;font-size:.95rem;font-weight:600;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.badge{display:inline-block;background:var(--paper-warm);color:var(--accent-deep);
+  font-size:.72rem;padding:3px 9px;border-radius:20px;margin:2px 3px 0 0;font-weight:600}
+.stat{font-size:.8rem;color:var(--muted);margin-top:10px}
+.lock-ico{position:absolute;top:16px;right:16px;font-size:1.1rem}
+/* play screen */
+#play{display:none}
+.progress{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin:16px 0}
+.progress>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px;box-shadow:0 2px 10px rgba(14,69,118,.06)}
+.qtype{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);
+  font-weight:700;margin-bottom:8px}
+.qtext{font-size:1.05rem;margin-bottom:16px;font-weight:500}
+.reading{background:var(--paper-warm);border-radius:12px;padding:14px;margin-bottom:14px;
+  font-size:.95rem;line-height:1.6;white-space:pre-line}
+.opts{display:grid;gap:9px}
+.opt{padding:13px 14px;border:1.5px solid var(--line);border-radius:11px;cursor:pointer;
+  background:#fff;font-size:.95rem;transition:.15s;text-align:left}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:var(--paper-warm)}
+.opt.ok{border-color:var(--ok);background:#e8f6ee}
+.opt.bad{border-color:var(--bad);background:#fbeae8}
+/* pair */
+.pairwrap{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.paircol{display:grid;gap:8px}
+.pairitem{padding:12px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;
+  background:#fff;font-size:.92rem;text-align:center;transition:.15s}
+.pairitem.sel{border-color:var(--accent);background:var(--paper-warm)}
+.pairitem.ok{border-color:var(--ok);background:#e8f6ee;cursor:default}
+.pairitem.bad{border-color:var(--bad);background:#fbeae8}
+/* scramble + order */
+.tokens{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;min-height:48px;
+  padding:12px;border:1.5px dashed var(--line);border-radius:11px}
+.bank{display:flex;flex-wrap:wrap;gap:8px}
+.token{padding:9px 13px;border:1.5px solid var(--accent);border-radius:9px;
+  background:var(--paper-warm);color:var(--accent-deep);cursor:pointer;font-size:.92rem;font-weight:500}
+.token.placed{background:#fff;border-color:var(--line);color:var(--ink)}
+.orderlist{display:grid;gap:8px;margin-bottom:14px}
+.orderitem{padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;
+  cursor:pointer;font-size:.92rem;display:flex;align-items:center;gap:10px}
+.orderitem .num{min-width:26px;height:26px;border-radius:50%;background:var(--paper-warm);
+  color:var(--accent-deep);display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:700}
+.orderitem.chosen{border-color:var(--accent);background:var(--paper-warm)}
+.feedback{margin-top:14px;padding:13px;border-radius:11px;font-size:.9rem;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e8f6ee;color:#1d6b41}
+.feedback.wrong{background:#fbeae8;color:#922}
+.actions{display:flex;gap:10px;margin-top:16px}
+.actions .btn{flex:1}
+/* end screens */
+.endcard{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:28px 20px;text-align:center;box-shadow:0 4px 18px rgba(14,69,118,.1)}
+.endcard h2{color:var(--accent-deep);margin-bottom:10px}
+.pwbox{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;
+  border:none;border-radius:14px;padding:22px;font-size:1.5rem;font-weight:800;
+  letter-spacing:1px;cursor:pointer;width:100%;margin:18px 0;font-family:monospace}
+.pwbox small{display:block;font-size:.72rem;font-weight:400;letter-spacing:0;
+  opacity:.85;margin-bottom:6px;font-family:-apple-system,sans-serif}
+.namerow{display:flex;gap:8px;margin:14px 0}
+.namerow input{flex:1;padding:11px;border:1px solid var(--line);border-radius:10px}
+footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:40px;padding:0 16px}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-size:.85rem}
+.topbar a{color:var(--accent);text-decoration:none;font-weight:600}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>Lektion 1 — Mein Beruf</h1>
+  <p>Aspekte Beruf B2 · 4 Module · 120 Aufgaben</p>
+</header>
+
+<div class="wrap">
+  <!-- HOME -->
+  <div id="home">
+    <div class="modgrid" id="modgrid"></div>
+    <footer>Lern Deutsch mit Arash · Lektion 1 · Mein Beruf</footer>
+  </div>
+
+  <!-- PLAY -->
+  <div id="play">
+    <div class="topbar">
+      <a href="#" onclick="goHome();return false">&larr; Übersicht</a>
+      <span id="playprog">Aufgabe 1</span>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+    <div id="qhost"></div>
+  </div>
+</div>
+
+<!-- Goatcounter -->
+<script data-goatcounter="https://aguitoo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+<script>
+/* ============ AUFGABEN-DATEN ============ */
+const MODUL_1 = {
+  id:1, title:"Modul 1 — Pendeln oder umziehen?",
+  subtitle:"Wortstellung im Satz · die eigene Meinung ausdrücken",
+  topics:["Mittelfeld","Meinung äußern","Argumente","Konnektoren"],
+  passwordToUnlock:null, passwordReward:"M2-AGENTUR-2026",
+  tasks:[
+    {type:"reading", text:"Forum „Umziehen für den Job?\u201C\n\nNadia (Hamburg): Mein Arbeitgeber will, dass ich nach München wechsle. Ich habe hier Familie, Freunde und einen festen Freundeskreis. Ehrlich gesagt fällt mir die Entscheidung schwer. Aber die Stelle ist eine große Chance, und das Gehalt ist deutlich besser.\n\nTobias (Kiel): Ich pendle seit zwei Jahren 90 Kilometer pro Strecke. Am Anfang war das spannend, inzwischen bin ich oft müde. Trotzdem würde ich nicht umziehen \u2013 meine Kinder gehen hier zur Schule."},
+    {type:"mc", followsReading:true, q:"Warum fällt Nadia die Entscheidung schwer?", opts:["Weil das Gehalt schlechter ist","Weil sie in Hamburg Familie und Freunde hat","Weil sie München nicht kennt","Weil sie nicht pendeln will"], correct:1, exp:"Nadia nennt Familie, Freunde und Freundeskreis als Grund."},
+    {type:"mc", followsReading:true, q:"Was sagt Tobias über das Pendeln?", opts:["Es macht ihm immer noch Spaß","Es ist anfangs spannend, jetzt aber anstrengend","Er pendelt nur 9 Kilometer","Er will deshalb umziehen"], correct:1, exp:"Am Anfang spannend, inzwischen oft müde."},
+    {type:"mc", followsReading:true, q:"Warum bleibt Tobias trotzdem wohnen, wo er wohnt?", opts:["Wegen des besseren Gehalts","Wegen der kurzen Strecke","Wegen der Schule seiner Kinder","Wegen der neuen Stelle"], correct:2, exp:"Seine Kinder gehen dort zur Schule."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Ich bin letztes Jahr wegen eines Projekts nach Hamburg gezogen", exp:"Subjekt + Verb, dann die Angaben im Mittelfeld: temporal – kausal – lokal."},
+    {type:"gap", q:"Im Mittelfeld steht die temporale Angabe meist ___ der lokalen Angabe.", opts:["nach","vor","statt","ohne"], correct:1, exp:"Reihenfolge im Mittelfeld: temporal vor lokal (te-ka-mo-lo)."},
+    {type:"mc", q:"Welcher Satz hat die korrekte Wortstellung im Mittelfeld?", opts:["Ich fahre nach Hamburg morgen mit dem Zug.","Ich fahre morgen mit dem Zug nach Hamburg.","Ich fahre mit dem Zug nach Hamburg morgen.","Morgen ich fahre mit dem Zug nach Hamburg."], correct:1, exp:"temporal (morgen) – modal (mit dem Zug) – lokal (nach Hamburg)."},
+    {type:"pair", q:"Ordne Satzanfang und passende Fortsetzung zu:", pairs:[
+      {l:"Meiner Meinung nach",r:"sollte man flexibel bleiben."},
+      {l:"Ich bin der Ansicht,",r:"dass Pendeln anstrengend ist."},
+      {l:"Ehrlich gesagt",r:"würde ich nicht umziehen."},
+      {l:"Es kommt darauf an,",r:"wie weit der Weg ist."}], exp:"Feste Redemittel zur Meinungsäußerung."},
+    {type:"gap", q:"___ gesagt finde ich Pendeln auf Dauer zu stressig.", opts:["Ehrlich","Richtig","Sicher","Genau"], correct:0, exp:"„Ehrlich gesagt\u201C leitet eine persönliche Meinung ein."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Meiner Meinung nach ist ein Umzug eine große Entscheidung", exp:"„Meiner Meinung nach\u201C steht auf Position 1, danach folgt das Verb."},
+    {type:"gap", q:"Ich pendle, ___ ich nicht umziehen möchte.", opts:["weil","obwohl","damit","trotzdem"], correct:0, exp:"„weil\u201C gibt den Grund an (kausal)."},
+    {type:"mc", q:"„Ich bleibe hier, ___ der Weg lang ist.\u201C \u2013 Welcher Konnektor passt?", opts:["weil","obwohl","damit","sodass"], correct:1, exp:"„obwohl\u201C drückt einen Gegensatz aus (konzessiv)."},
+    {type:"order", q:"Bring die Argumente eines Forumsbeitrags in eine logische Reihenfolge:", items:["Ich arbeite seit drei Jahren in derselben Firma.","Jetzt soll ich in eine andere Stadt wechseln.","Einerseits ist das eine gute Chance.","Andererseits müsste ich meine Familie zurücklassen.","Deshalb fällt mir die Entscheidung schwer."], exp:"Erst die Ausgangslage, dann das Problem, Pro und Contra, am Ende das Fazit."},
+    {type:"gap", q:"Ein Vorteil des Pendelns ist, dass man nicht umziehen muss. Ein ___ ist die lange Fahrtzeit.", opts:["Nachteil","Vorschlag","Vorteil","Grund"], correct:0, exp:"Vorteil ↔ Nachteil."},
+    {type:"mc", q:"Welches Wort beschreibt „jeden Tag\u201C?", opts:["gelegentlich","täglich","selten","manchmal"], correct:1, exp:"täglich = jeden Tag."},
+    {type:"pair", q:"Ordne die Gegensätze zu:", pairs:[
+      {l:"Vorteil",r:"Nachteil"},
+      {l:"flexibel",r:"unflexibel"},
+      {l:"in der Nähe",r:"weit weg"},
+      {l:"umziehen",r:"bleiben"}], exp:"Antonyme zum Thema Wohnen und Arbeiten."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Wir würden gern in der Nähe der Arbeit wohnen", exp:"Modalverb-Konstruktion: würden + gern + Angaben + Infinitiv am Ende."},
+    {type:"gap", q:"Ich würde sofort umziehen, ___ die Stelle besser wäre.", opts:["wenn","weil","dass","ob"], correct:0, exp:"„wenn\u201C leitet einen Bedingungssatz ein."},
+    {type:"mc", q:"Was ist eine „befristete Stelle\u201C?", opts:["Eine Stelle ohne Ende","Eine Stelle für eine bestimmte Zeit","Eine Stelle im Ausland","Eine Stelle ohne Gehalt"], correct:1, exp:"befristet = zeitlich begrenzt."},
+    {type:"order", q:"Bring die Sätze zu einer sinnvollen Mini-Argumentation:", items:["Pendeln kostet jeden Tag viel Zeit.","Die Zeit fehlt mir dann für die Familie.","Ein Umzug würde dieses Problem lösen.","Deshalb denke ich ernsthaft über einen Umzug nach."], exp:"Problem → Folge → Lösung → Schlussfolgerung."},
+    {type:"gap", q:"Es kommt ___ an, wie weit der Arbeitsweg ist.", opts:["darauf","damit","dabei","dazu"], correct:0, exp:"feste Wendung: „Es kommt darauf an.\u201C"},
+    {type:"mc", q:"Welcher Satz ist höflicher formuliert?", opts:["Zieh um!","Du musst umziehen.","Vielleicht wäre ein Umzug eine Möglichkeit.","Umziehen, sofort."], correct:2, exp:"Konjunktiv + „vielleicht\u201C wirkt höflich und vorsichtig."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Einerseits ist die Stelle gut bezahlt andererseits ist der Weg weit", exp:"Einerseits … andererseits … stellt zwei Aspekte gegenüber."},
+    {type:"gap", q:"Ich kann mir gut ___, in einer anderen Stadt zu arbeiten.", opts:["vorstellen","vorstehen","vorhaben","vorgehen"], correct:0, exp:"sich etwas vorstellen = sich etwas ausmalen."},
+    {type:"pair", q:"Ordne Redemittel und Funktion zu:", pairs:[
+      {l:"Ich bin dafür,",r:"Zustimmung"},
+      {l:"Ich bin dagegen,",r:"Ablehnung"},
+      {l:"Das kommt darauf an,",r:"Unentschlossenheit"},
+      {l:"Genau, das sehe ich auch so.",r:"volle Zustimmung"}], exp:"Redemittel für Position beziehen."},
+    {type:"mc", q:"„Trotzdem\u201C verbindet zwei Sätze. Welche Bedeutung hat es?", opts:["Grund","Gegensatz","Zeit","Ziel"], correct:1, exp:"trotzdem = konzessiv (unerwartete Folge)."},
+    {type:"order", q:"Bring die Teile eines höflichen Forumsbeitrags in die richtige Reihenfolge:", items:["Hallo zusammen,","ich stehe gerade vor einer schwierigen Entscheidung.","Was würdet ihr an meiner Stelle tun?","Über eure Tipps würde ich mich freuen."], exp:"Anrede → Anliegen → Frage → höflicher Abschluss."},
+    {type:"gap", q:"Wenn man eine Angabe besonders betonen möchte, kann man sie auf Position ___ stellen.", opts:["1","2","3","4"], correct:0, exp:"Betonte Angaben stehen auf Position 1 (vor dem Verb)."},
+    {type:"mc", q:"Welcher Satz beginnt mit einer betonten temporalen Angabe?", opts:["Ich bin letztes Jahr umgezogen.","Letztes Jahr bin ich umgezogen.","Ich bin umgezogen letztes Jahr.","Umgezogen ich bin letztes Jahr."], correct:1, exp:"„Letztes Jahr\u201C auf Position 1, Verb auf Position 2."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Aus meiner Sicht überwiegen die Vorteile eines Umzugs", exp:"„Aus meiner Sicht\u201C leitet die Meinung ein, Verb auf Position 2."}
+  ]
+};
+
+const MODUL_2 = {
+  id:2, title:"Modul 2 — Bei der Agentur für Arbeit",
+  subtitle:"Telefongespräch · Behördenbriefe verstehen · sich vorstellen",
+  topics:["Telefonieren","Behördenbrief","Termine","Höflichkeit"],
+  passwordToUnlock:"M2-AGENTUR-2026", passwordReward:"M3-SKILLS-2026",
+  tasks:[
+    {type:"reading", text:"Telefongespräch bei der Agentur für Arbeit\n\nFrau Sahin: Guten Tag, mein Name ist Leyla Sahin. Ich rufe an, weil ich gerade arbeitslos geworden bin und mich beraten lassen möchte.\nMitarbeiter: Guten Tag, Frau Sahin. Da kann ich Ihnen helfen. Haben Sie sich schon arbeitssuchend gemeldet?\nFrau Sahin: Noch nicht. Können Sie mir sagen, wie das geht?\nMitarbeiter: Natürlich. Ich schicke Ihnen einen Termin per Post. Bringen Sie bitte Ihren Lebenslauf und Ihren Ausweis mit."},
+    {type:"mc", followsReading:true, q:"Warum ruft Frau Sahin an?", opts:["Sie sucht eine Wohnung","Sie ist arbeitslos geworden und möchte Beratung","Sie will einen Termin absagen","Sie sucht einen Sprachkurs"], correct:1, exp:"Sie ist arbeitslos geworden und möchte sich beraten lassen."},
+    {type:"mc", followsReading:true, q:"Was hat Frau Sahin noch nicht getan?", opts:["Sich arbeitssuchend gemeldet","Ihren Ausweis verloren","Einen Lebenslauf geschrieben","Einen Termin abgesagt"], correct:0, exp:"Sie hat sich noch nicht arbeitssuchend gemeldet."},
+    {type:"mc", followsReading:true, q:"Was soll Frau Sahin zum Termin mitbringen?", opts:["Nur den Ausweis","Lebenslauf und Ausweis","Ein Foto und Geld","Nichts"], correct:1, exp:"Lebenslauf und Ausweis."},
+    {type:"order", q:"Bring das Telefongespräch in die richtige Reihenfolge:", items:["Guten Tag, mein Name ist Leyla Sahin.","Ich rufe an, weil ich mich arbeitssuchend melden möchte.","Haben Sie schon einen Termin?","Nein, deshalb rufe ich an.","Gut, ich schicke Ihnen einen Termin per Post."], exp:"Begrüßung → Grund des Anrufs → Rückfrage → Antwort → Lösung."},
+    {type:"gap", q:"Guten Tag, mein ___ ist Leyla Sahin.", opts:["Name","Beruf","Termin","Brief"], correct:0, exp:"Sich am Telefon vorstellen: „Mein Name ist …\u201C"},
+    {type:"pair", q:"Ordne Redemittel und Gesprächsphase zu:", pairs:[
+      {l:"Guten Tag, hier spricht …",r:"sich vorstellen"},
+      {l:"Ich rufe an, weil …",r:"Grund nennen"},
+      {l:"Könnten Sie mir sagen, …?",r:"nachfragen"},
+      {l:"Vielen Dank, auf Wiederhören.",r:"Gespräch beenden"}], exp:"Phasen eines Telefongesprächs."},
+    {type:"gap", q:"Ich rufe an, ___ ich einen Termin brauche.", opts:["weil","obwohl","damit","ob"], correct:0, exp:"„weil\u201C nennt den Grund des Anrufs."},
+    {type:"mc", q:"Was bedeutet „arbeitssuchend gemeldet\u201C?", opts:["Man hat einen neuen Job","Man hat der Agentur mitgeteilt, dass man Arbeit sucht","Man arbeitet in der Agentur","Man hat gekündigt"], correct:1, exp:"Man hat sich offiziell als arbeitssuchend registriert."},
+    {type:"order", q:"Bring die Sätze für eine höfliche Nachfrage in die richtige Reihenfolge:", items:["Entschuldigung,","könnten Sie mir bitte sagen,","welche Unterlagen ich mitbringen muss?"], exp:"Entschuldigung → höfliche Einleitung → eigentliche Frage."},
+    {type:"gap", q:"___ Sie mir bitte sagen, wann der Termin ist?", opts:["Könnten","Wollen","Müssen","Sollen"], correct:0, exp:"„Könnten Sie …?\u201C ist eine höfliche Bitte (Konjunktiv II)."},
+    {type:"mc", q:"In einem Behördenbrief steht „gez. Holger Wichmann\u201C. Was bedeutet „gez.\u201C?", opts:["gezeichnet (unterschrieben)","gezahlt","gezeigt","gezogen"], correct:0, exp:"gez. = gezeichnet, steht vor dem Namen des Unterzeichners."},
+    {type:"reading", text:"Brief der Agentur für Arbeit\n\nSehr geehrte Frau Sahin,\nwir laden Sie zu einem Beratungsgespräch ein.\nTermin: Donnerstag, den 12. Oktober, um 09:30 Uhr\nRaum: 2005\nBitte bringen Sie folgende Unterlagen mit: Personalausweis, Lebenslauf und Ihre Sozialversicherungsnummer.\nMit freundlichen Grüßen"},
+    {type:"mc", followsReading:true, q:"Worum geht es in dem Brief?", opts:["Um eine Rechnung","Um eine Einladung zu einem Beratungsgespräch","Um eine Kündigung","Um eine Werbung"], correct:1, exp:"Es ist eine Einladung zum Beratungsgespräch."},
+    {type:"mc", followsReading:true, q:"Wann ist der Termin?", opts:["Montag, 09:30 Uhr","Donnerstag, 09:30 Uhr","Donnerstag, 19:30 Uhr","Freitag, 09:30 Uhr"], correct:1, exp:"Donnerstag, den 12. Oktober, um 09:30 Uhr."},
+    {type:"mc", followsReading:true, q:"Welche Unterlage wird NICHT verlangt?", opts:["Personalausweis","Lebenslauf","Sozialversicherungsnummer","Führerschein"], correct:3, exp:"Verlangt: Ausweis, Lebenslauf, Sozialversicherungsnummer \u2013 kein Führerschein."},
+    {type:"gap", q:"Behördenbriefe beginnen oft mit „Sehr ___ Frau Sahin\u201C.", opts:["geehrte","liebe","nette","gute"], correct:0, exp:"Formelle Anrede: „Sehr geehrte/r …\u201C"},
+    {type:"mc", q:"Wie endet ein formeller Brief?", opts:["Tschüss!","Bis bald","Mit freundlichen Grüßen","Liebe Grüße, dein …"], correct:2, exp:"„Mit freundlichen Grüßen\u201C ist die formelle Grußformel."},
+    {type:"pair", q:"Ordne Begriff und Bedeutung zu:", pairs:[
+      {l:"Lebenslauf",r:"Übersicht über Ausbildung und Beruf"},
+      {l:"Termin",r:"vereinbarte Zeit für ein Treffen"},
+      {l:"Unterlagen",r:"wichtige Dokumente"},
+      {l:"Beratung",r:"fachliche Hilfe und Information"}], exp:"Wortschatz rund um die Agentur für Arbeit."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Bitte bringen Sie Ihren Lebenslauf zum Termin mit", exp:"Höfliche Aufforderung mit „bitte\u201C, trennbares Verb „mitbringen\u201C."},
+    {type:"gap", q:"Ich möchte einen Termin ___.", opts:["vereinbaren","verlieren","vergessen","verkaufen"], correct:0, exp:"einen Termin vereinbaren = einen Termin ausmachen."},
+    {type:"mc", q:"Was sagt man, wenn man etwas nicht verstanden hat?", opts:["Das ist mir egal.","Könnten Sie das bitte wiederholen?","Ich gehe jetzt.","Das stimmt nicht."], correct:1, exp:"Höfliche Bitte um Wiederholung sichert das Verständnis."},
+    {type:"order", q:"Bring die Schritte eines Beratungstermins in eine sinnvolle Reihenfolge:", items:["Man meldet sich arbeitssuchend.","Man bekommt einen Termin per Post.","Man bringt die Unterlagen mit.","Man führt das Beratungsgespräch."], exp:"Meldung → Einladung → Vorbereitung → Gespräch."},
+    {type:"gap", q:"Bitte ___ Sie sich an der Rezeption.", opts:["melden","meiden","mieten","malen"], correct:0, exp:"sich melden = Bescheid geben, dass man da ist."},
+    {type:"mc", q:"„Wartezone E \u2013 Raum 2005\u201C \u2013 wo wartet man?", opts:["Im Raum 2005, Wartezone E","Im Raum E","In der Zone 2005","Vor dem Gebäude"], correct:0, exp:"Wartezone E, Raum 2005."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Vielen Dank für das Gespräch auf Wiederhören", exp:"Höfliche Verabschiedung am Telefon."},
+    {type:"gap", q:"Ich rufe an, weil ich mich arbeitssuchend ___ möchte.", opts:["melden","gemeldet","meldete","meldend"], correct:0, exp:"Modalverb „möchte\u201C + Infinitiv „melden\u201C am Satzende."},
+    {type:"mc", q:"Welche Formulierung ist am höflichsten?", opts:["Sag mir den Termin!","Ich will den Termin wissen.","Könnten Sie mir bitte den Termin nennen?","Termin, sofort!"], correct:2, exp:"Konjunktiv II + „bitte\u201C wirkt höflich."},
+    {type:"order", q:"Bring die Teile einer Terminbestätigung in die richtige Reihenfolge:", items:["Sehr geehrte Frau Sahin,","hiermit bestätige ich Ihren Termin","am Donnerstag um 09:30 Uhr.","Mit freundlichen Grüßen"], exp:"Anrede → Bestätigung → Detail → Grußformel."},
+    {type:"gap", q:"Den Termin habe ich mir im Kalender ___.", opts:["notiert","vergessen","verloren","verkauft"], correct:0, exp:"sich etwas notieren = aufschreiben, um es nicht zu vergessen."}
+  ]
+};
+
+const MODUL_3 = {
+  id:3, title:"Modul 3 — Das kann ich gut",
+  subtitle:"Soft Skills · Stellenanzeigen · Negation im Satz",
+  topics:["Soft Skills","Stellenanzeige","Negation","Kompetenzen"],
+  passwordToUnlock:"M3-SKILLS-2026", passwordReward:"M4-ABSCHLUSS-2026",
+  tasks:[
+    {type:"reading", text:"Soft Skills im Beruf\n\nNeben fachlichen Fähigkeiten sind heute sogenannte Soft Skills sehr wichtig. Dazu gehören zum Beispiel Teamfähigkeit, Zuverlässigkeit und Kommunikationsstärke. Ein guter Mitarbeiter erledigt nicht nur seine Aufgaben pünktlich, sondern unterstützt auch seine Kolleginnen und Kollegen. Wer flexibel ist und gut mit Stress umgehen kann, hat in vielen Berufen Vorteile."},
+    {type:"mc", followsReading:true, q:"Was sind „Soft Skills\u201C?", opts:["Fachliche Computerkenntnisse","Persönliche und soziale Fähigkeiten","Technische Maschinen","Schulnoten"], correct:1, exp:"Soft Skills sind persönliche und soziale Kompetenzen."},
+    {type:"mc", followsReading:true, q:"Welche Soft Skill wird im Text NICHT genannt?", opts:["Teamfähigkeit","Zuverlässigkeit","Kommunikationsstärke","Pünktlichkeit als Schulnote"], correct:3, exp:"Genannt werden Teamfähigkeit, Zuverlässigkeit, Kommunikationsstärke."},
+    {type:"mc", followsReading:true, q:"Was macht laut Text einen guten Mitarbeiter aus?", opts:["Er arbeitet allein","Er unterstützt auch seine Kollegen","Er kommt immer zu spät","Er vermeidet Aufgaben"], correct:1, exp:"Er erledigt Aufgaben pünktlich UND unterstützt die Kollegen."},
+    {type:"pair", q:"Ordne Soft Skill und Beschreibung zu:", pairs:[
+      {l:"Teamfähigkeit",r:"gut mit anderen zusammenarbeiten"},
+      {l:"Zuverlässigkeit",r:"man kann sich auf die Person verlassen"},
+      {l:"Flexibilität",r:"sich schnell an Neues anpassen"},
+      {l:"Belastbarkeit",r:"auch unter Stress ruhig bleiben"}], exp:"Wichtige Soft Skills und ihre Bedeutung."},
+    {type:"gap", q:"Auf meinen Kollegen kann man sich verlassen, er ist sehr ___.", opts:["zuverlässig","langsam","müde","unpünktlich"], correct:0, exp:"zuverlässig = man kann sich auf ihn verlassen."},
+    {type:"mc", q:"Welches Wort ist ein Soft Skill?", opts:["Excel-Kenntnisse","Teamfähigkeit","Führerschein","Schreibmaschine"], correct:1, exp:"Teamfähigkeit ist eine soziale Kompetenz (Soft Skill)."},
+    {type:"gap", q:"Negation: Ich verstehe das ___.", opts:["nicht","kein","nein","nichts"], correct:0, exp:"Ein Verb wird mit „nicht\u201C verneint."},
+    {type:"mc", q:"Wie verneint man: „Ich habe Erfahrung.\u201C?", opts:["Ich habe nicht Erfahrung.","Ich habe keine Erfahrung.","Ich habe kein Erfahrung.","Ich habe nichts Erfahrung."], correct:1, exp:"Vor einem Nomen mit unbestimmtem Artikel steht „kein-\u201C."},
+    {type:"gap", q:"Ich arbeite ___ gern allein, sondern lieber im Team.", opts:["nicht","kein","nichts","nie"], correct:0, exp:"„nicht … sondern\u201C: „nicht\u201C verneint, „sondern\u201C korrigiert."},
+    {type:"mc", q:"Wo steht „nicht\u201C bei der Verneinung des ganzen Satzes?", opts:["Am Satzanfang","Direkt nach dem Subjekt","Am Ende des Satzes (vor zweitem Verbteil)","Vor dem Subjekt"], correct:2, exp:"„nicht\u201C steht meist am Satzende, vor einem zweiten Verbteil."},
+    {type:"pair", q:"Ordne Wort und Verneinung zu:", pairs:[
+      {l:"etwas",r:"nichts"},
+      {l:"jemand",r:"niemand"},
+      {l:"immer",r:"nie"},
+      {l:"schon",r:"noch nicht"}], exp:"Negationswörter und ihre positiven Entsprechungen."},
+    {type:"gap", q:"Verneine: „Ich kenne diesen Begriff.\u201C \u2013 Ich kenne diesen Begriff ___.", opts:["nicht","kein","nichts","nie"], correct:0, exp:"Ein bestimmtes Nomen („diesen Begriff\u201C) wird mit „nicht\u201C verneint."},
+    {type:"mc", q:"Welcher Satz ist richtig verneint?", opts:["Ich habe nicht Zeit.","Ich habe keine Zeit.","Ich habe kein Zeit.","Ich habe Zeit nicht."], correct:1, exp:"„Zeit\u201C ohne Artikel → Verneinung mit „keine\u201C."},
+    {type:"order", q:"Bring die Sätze zu einer kurzen Selbstvorstellung in die richtige Reihenfolge:", items:["Ich bin sehr zuverlässig und arbeite gern im Team.","Außerdem bin ich flexibel und belastbar.","Auch unter Stress bleibe ich ruhig.","Deshalb passe ich gut zu Ihrer ausgeschriebenen Stelle."], exp:"Stärke → weitere Stärke → Beispiel → Schlussfolgerung/Bezug."},
+    {type:"gap", q:"In der Stellenanzeige steht: „Wir ___ engagierte Mitarbeiter.\u201C", opts:["suchen","finden","verlieren","kaufen"], correct:0, exp:"Stellenanzeigen verwenden oft „Wir suchen …\u201C"},
+    {type:"mc", q:"Was bedeutet „Berufserfahrung erwünscht\u201C in einer Anzeige?", opts:["Erfahrung ist verboten","Erfahrung wäre gut, ist aber kein Muss","Erfahrung ist Pflicht","Erfahrung ist egal"], correct:1, exp:"„erwünscht\u201C = gern gesehen, aber nicht zwingend nötig."},
+    {type:"pair", q:"Ordne Anzeigen-Begriff und Bedeutung zu:", pairs:[
+      {l:"Vollzeit",r:"ca. 40 Stunden pro Woche"},
+      {l:"Teilzeit",r:"weniger Stunden pro Woche"},
+      {l:"unbefristet",r:"ohne zeitliche Begrenzung"},
+      {l:"Voraussetzung",r:"Bedingung für die Stelle"}], exp:"Typische Begriffe aus Stellenanzeigen."},
+    {type:"gap", q:"Für diese Stelle ist ein Führerschein ___.", opts:["Voraussetzung","Soft Skill","Gehalt","Termin"], correct:0, exp:"Voraussetzung = notwendige Bedingung."},
+    {type:"mc", q:"Welche Aussage ist eine Stärke in einer Bewerbung?", opts:["Ich komme oft zu spät.","Ich arbeite sehr selbstständig.","Ich mag keine Teams.","Ich vergesse Termine."], correct:1, exp:"„Ich arbeite selbstständig\u201C ist eine positive Eigenschaft."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Ich arbeite nicht gern allein sondern lieber im Team", exp:"„nicht … sondern\u201C-Konstruktion."},
+    {type:"gap", q:"Sie ist sehr ___: Sie spricht und schreibt klar mit Kollegen.", opts:["kommunikativ","müde","langsam","unpünktlich"], correct:0, exp:"kommunikativ = gut im Sprechen und Austausch."},
+    {type:"mc", q:"„Ich bin teamfähig.\u201C \u2013 Was heißt das?", opts:["Ich arbeite nur allein","Ich kann gut im Team arbeiten","Ich leite ein Team","Ich mag keine Teams"], correct:1, exp:"teamfähig = kann gut mit anderen zusammenarbeiten."},
+    {type:"order", q:"Bring die Bausteine einer Stellenanzeige in eine logische Reihenfolge:", items:["Wir sind ein modernes Unternehmen in Hamburg.","Zur Verstärkung suchen wir eine Fachkraft.","Ihre Aufgaben: Beratung und Betreuung von Kunden.","Wir freuen uns auf Ihre Bewerbung."], exp:"Firma → Stelle → Aufgaben → Aufforderung zur Bewerbung."},
+    {type:"gap", q:"Verneine: „Ich arbeite heute.\u201C \u2013 Ich arbeite heute ___.", opts:["nicht","kein","nichts","keine"], correct:0, exp:"Ein Verb mit Zeitangabe wird mit „nicht\u201C verneint."},
+    {type:"mc", q:"Welches Wort passt NICHT zu den anderen?", opts:["zuverlässig","pünktlich","teamfähig","Schreibtisch"], correct:3, exp:"„Schreibtisch\u201C ist ein Gegenstand, die anderen sind Eigenschaften."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Zu meinen Stärken gehören Teamfähigkeit und Zuverlässigkeit", exp:"„Zu meinen Stärken gehören …\u201C leitet eine Aufzählung ein."},
+    {type:"gap", q:"In der Anzeige werden gute Deutschkenntnisse ___.", opts:["vorausgesetzt","verboten","verkauft","vergessen"], correct:0, exp:"vorausgesetzt = werden als Bedingung erwartet."},
+    {type:"mc", q:"Was ist das Gegenteil von „flexibel\u201C?", opts:["beweglich","anpassungsfähig","starr/unflexibel","offen"], correct:2, exp:"flexibel ↔ unflexibel/starr."},
+    {type:"order", q:"Bring die Sätze einer kurzen Stärken-Beschreibung in die richtige Reihenfolge:", items:["Meine größte Stärke ist meine Teamfähigkeit.","Ich arbeite gern mit anderen zusammen.","Dabei bleibe ich auch unter Druck ruhig.","So erreiche ich gemeinsam mit dem Team gute Ergebnisse."], exp:"These → Erläuterung → Zusatz → Ergebnis."}
+  ]
+};
+
+const MODUL_4 = {
+  id:4, title:"Modul 4 — Mein Abschluss",
+  subtitle:"Anerkennung ausländischer Abschlüsse · eine Anfrage-E-Mail ordnen",
+  topics:["Anerkennung","E-Mail schreiben","Berufsabschluss","Anfrage"],
+  passwordToUnlock:"M4-ABSCHLUSS-2026", passwordReward:"L1-MEISTER-2026",
+  tasks:[
+    {type:"reading", text:"Anerkennung ausländischer Berufsabschlüsse\n\nMaryam Aslani kommt aus dem Iran und hat dort als Erzieherin gearbeitet. In Deutschland möchte sie wieder in ihrem Beruf arbeiten. Dafür muss sie ihren ausländischen Abschluss anerkennen lassen. Sie wendet sich an ein Beratungszentrum. Dort erfährt sie, welche Unterlagen sie braucht und wie lange das Verfahren dauert."},
+    {type:"mc", followsReading:true, q:"Was war Maryam Aslanis Beruf im Iran?", opts:["Ärztin","Erzieherin","Lehrerin","Ingenieurin"], correct:1, exp:"Sie hat als Erzieherin gearbeitet."},
+    {type:"mc", followsReading:true, q:"Was muss sie tun, um in Deutschland im Beruf zu arbeiten?", opts:["Eine neue Ausbildung beginnen","Ihren Abschluss anerkennen lassen","Eine Prüfung in Englisch machen","Eine Firma gründen"], correct:1, exp:"Sie muss ihren ausländischen Abschluss anerkennen lassen."},
+    {type:"mc", followsReading:true, q:"An wen wendet sie sich?", opts:["An die Polizei","An ein Beratungszentrum","An ein Krankenhaus","An eine Schule"], correct:1, exp:"Sie wendet sich an ein Beratungszentrum."},
+    {type:"order", q:"Bring die Schritte des Anerkennungsverfahrens in die richtige Reihenfolge:", items:["Man informiert sich bei einer Beratungsstelle.","Man stellt einen Antrag auf Anerkennung.","Die Stelle prüft die Unterlagen.","Man erhält einen Bescheid über die Anerkennung."], exp:"Information → Antrag → Prüfung → Bescheid."},
+    {type:"gap", q:"Ich möchte meinen ausländischen Abschluss anerkennen ___.", opts:["lassen","machen","gehen","stellen"], correct:0, exp:"„etwas anerkennen lassen\u201C \u2013 eine andere Stelle führt es durch."},
+    {type:"mc", q:"Was ist ein „Bescheid\u201C?", opts:["Eine offizielle schriftliche Antwort einer Behörde","Ein Geldbetrag","Ein Termin","Ein Telefonat"], correct:0, exp:"Ein Bescheid ist die offizielle Entscheidung/Antwort einer Behörde."},
+    {type:"pair", q:"Ordne Begriff und Bedeutung zu:", pairs:[
+      {l:"Anerkennung",r:"offizielle Bestätigung eines Abschlusses"},
+      {l:"Antrag",r:"offizielle Bitte an eine Behörde"},
+      {l:"Unterlagen",r:"notwendige Dokumente"},
+      {l:"Verfahren",r:"der gesamte Ablauf/Prozess"}], exp:"Wortschatz zur Anerkennung."},
+    {type:"gap", q:"Für den Antrag brauche ich eine ___ Übersetzung meines Zeugnisses.", opts:["beglaubigte","schöne","kurze","schnelle"], correct:0, exp:"beglaubigt = offiziell bestätigt (mit Stempel)."},
+    {type:"mc", q:"Was bedeutet „eine Fachkraft\u201C?", opts:["Eine Person ohne Ausbildung","Eine gut ausgebildete Person in einem Beruf","Ein neuer Mitarbeiter","Ein Praktikant"], correct:1, exp:"Fachkraft = qualifizierte, ausgebildete Person."},
+    {type:"reading", text:"Anfrage-E-Mail an eine Beratungsstelle\n\nSehr geehrte Damen und Herren,\nich habe im Ausland als Erzieherin gearbeitet und möchte meinen Abschluss in Deutschland anerkennen lassen. Könnten Sie mir bitte mitteilen, welche Unterlagen ich einreichen muss und wie lange das Verfahren dauert?\nÜber eine kurze Rückmeldung würde ich mich sehr freuen.\nMit freundlichen Grüßen\nMaryam Aslani"},
+    {type:"mc", followsReading:true, q:"Was möchte Maryam mit der E-Mail erreichen?", opts:["Einen Termin absagen","Informationen über die Anerkennung bekommen","Sich bewerben","Eine Beschwerde einreichen"], correct:1, exp:"Sie fragt nach Unterlagen und Dauer des Verfahrens."},
+    {type:"mc", followsReading:true, q:"Wie ist die E-Mail formuliert?", opts:["Unhöflich","Höflich und formell","Lustig","Sehr kurz ohne Anrede"], correct:1, exp:"Formelle Anrede, höfliche Bitten, formelle Grußformel."},
+    {type:"order", q:"Bring die Teile der Anfrage-E-Mail in die richtige Reihenfolge:", items:["Sehr geehrte Damen und Herren,","ich möchte meinen Abschluss anerkennen lassen.","Könnten Sie mir mitteilen, welche Unterlagen ich brauche?","Über eine Rückmeldung würde ich mich freuen.","Mit freundlichen Grüßen","Maryam Aslani"], exp:"Anrede → Anliegen → konkrete Frage → höflicher Abschluss → Grußformel → Name."},
+    {type:"gap", q:"Eine formelle E-Mail beginnt mit „Sehr geehrte ___ und Herren,\u201C", opts:["Damen","Frauen","Leute","Kollegen"], correct:0, exp:"Standardanrede ohne bekannten Namen: „Sehr geehrte Damen und Herren\u201C."},
+    {type:"mc", q:"Welche Formulierung passt in eine höfliche Anfrage?", opts:["Schick mir die Infos!","Könnten Sie mir bitte mitteilen, …?","Ich will sofort Antwort.","Was ist los?"], correct:1, exp:"„Könnten Sie mir bitte mitteilen …?\u201C ist höflich und formell."},
+    {type:"pair", q:"Ordne E-Mail-Baustein und Funktion zu:", pairs:[
+      {l:"Sehr geehrte Damen und Herren,",r:"Anrede"},
+      {l:"ich schreibe Ihnen, weil …",r:"Anliegen einleiten"},
+      {l:"Könnten Sie mir bitte …?",r:"höfliche Bitte"},
+      {l:"Mit freundlichen Grüßen",r:"Grußformel"}], exp:"Aufbau einer formellen E-Mail."},
+    {type:"gap", q:"Über eine kurze ___ würde ich mich sehr freuen.", opts:["Rückmeldung","Rechnung","Reise","Reparatur"], correct:0, exp:"Rückmeldung = Antwort/Reaktion."},
+    {type:"mc", q:"Welcher Satz beendet eine formelle E-Mail höflich?", opts:["Tschüssi!","Mit freundlichen Grüßen","Bis später!","Mach's gut!"], correct:1, exp:"„Mit freundlichen Grüßen\u201C ist die formelle Grußformel."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Ich möchte meinen Abschluss in Deutschland anerkennen lassen", exp:"Modalverb + Objekt + Angabe + Infinitivkonstruktion am Ende."},
+    {type:"gap", q:"Bitte ___ Sie mir mit, welche Dokumente ich brauche.", opts:["teilen","stellen","nehmen","geben"], correct:0, exp:"mitteilen = informieren (trennbares Verb)."},
+    {type:"mc", q:"Was sollte man einer Anfrage-E-Mail NICHT tun?", opts:["höflich grüßen","klar das Anliegen nennen","beleidigend schreiben","sich bedanken"], correct:2, exp:"Eine formelle E-Mail bleibt immer höflich."},
+    {type:"order", q:"Bring eine kurze Dankes-E-Mail nach der Beratung in die richtige Reihenfolge:", items:["Sehr geehrte Frau Berg,","vielen Dank für das informative Gespräch.","Ich werde die Unterlagen wie besprochen einreichen.","Mit freundlichen Grüßen"], exp:"Anrede → Dank → Ankündigung → Grußformel."},
+    {type:"gap", q:"Das Anerkennungs___ kann mehrere Monate dauern.", opts:["verfahren","gespräch","zeugnis","gehalt"], correct:0, exp:"Anerkennungsverfahren = der gesamte Prozess der Anerkennung."},
+    {type:"mc", q:"„Ich reiche die Unterlagen ein.\u201C \u2013 Was bedeutet „einreichen\u201C?", opts:["wegwerfen","offiziell abgeben","verlieren","kopieren"], correct:1, exp:"einreichen = offiziell bei einer Stelle abgeben."},
+    {type:"pair", q:"Ordne Verb und passendes Objekt zu:", pairs:[
+      {l:"einen Antrag",r:"stellen"},
+      {l:"Unterlagen",r:"einreichen"},
+      {l:"einen Abschluss",r:"anerkennen lassen"},
+      {l:"eine E-Mail",r:"schreiben"}], exp:"Feste Verb-Nomen-Verbindungen."},
+    {type:"gap", q:"Können Sie mir sagen, ___ lange das Verfahren dauert?", opts:["wie","was","wo","wer"], correct:0, exp:"indirekte Frage nach der Dauer: „wie lange …\u201C"},
+    {type:"mc", q:"Welche E-Mail-Betreffzeile passt zur Anfrage?", opts:["Hallo","Anfrage zur Anerkennung meines Abschlusses","!!!","kein Betreff nötig"], correct:1, exp:"Eine klare, sachliche Betreffzeile nennt das Thema."},
+    {type:"scramble", q:"Bring die Wörter in die richtige Reihenfolge:", answer:"Könnten Sie mir bitte die nötigen Unterlagen nennen", exp:"Höfliche Frage mit „Könnten Sie …?\u201C, Verb am Satzende."},
+    {type:"order", q:"Bring die Teile einer vollständigen Anfrage-E-Mail in die richtige Reihenfolge:", items:["Betreff: Anerkennung meines Berufsabschlusses","Sehr geehrte Damen und Herren,","ich habe im Ausland als Erzieherin gearbeitet.","Könnten Sie mir die nötigen Unterlagen nennen?","Mit freundlichen Grüßen, Maryam Aslani"], exp:"Betreff → Anrede → Hintergrund → Frage → Grußformel mit Name."}
+  ]
+};
+
+const MODULES = [MODUL_1, MODUL_2, MODUL_3, MODUL_4];
+let STATIONS = [{ title: MODULES[0].title, tasks: MODULES[0].tasks }];
+
+/* ============ STATE ============ */
+const STORAGE_KEY = "ldma_l1_meinberuf_v1";
+let curMod = 0, queue = [], curTask = null, answered = false, selPair = {l:null,r:null}, pairsDone = 0, orderChosen = [], scrambleBuilt = [];
+
+function loadState(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}}catch(_){return{}} }
+function saveState(s){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(_){}}
+function isUnlocked(idx){ if(idx===0)return true; const s=loadState(); return !!(s.unlocked&&s.unlocked[idx]); }
+function unlock(idx){ const s=loadState(); s.unlocked=s.unlocked||{}; s.unlocked[idx]=true; saveState(s); }
+
+/* ============ HOME ============ */
+function renderHome(){
+  const g=document.getElementById("modgrid"); g.innerHTML="";
+  MODULES.forEach((m,i)=>{
+    const unlocked=isUnlocked(i);
+    const card=document.createElement("div");
+    card.className="modcard"+(unlocked?"":" locked");
+    let tags=m.topics.map(t=>`<span class="badge">${t}</span>`).join("");
+    let inner=`<h3>${m.title}</h3><div class="sub">${m.subtitle}</div><div>${tags}</div>
+      <div class="stat">30 Aufgaben · ~15 Minuten</div>`;
+    if(unlocked){
+      inner+=`<div style="margin-top:14px"><button class="btn" onclick="startModule(${i})">Modul starten</button></div>`;
+    }else{
+      inner+=`<div class="lock-ico">🔒</div>
+      <div class="lockrow">
+        <input type="text" id="pw${i}" placeholder="Passwort eingeben" autocapitalize="characters">
+        <button class="btn" onclick="tryUnlock(${i})">OK</button>
+      </div>
+      <div class="stat" id="pwmsg${i}"></div>`;
+    }
+    card.innerHTML=inner; g.appendChild(card);
+  });
+}
+function tryUnlock(i){
+  const val=(document.getElementById("pw"+i).value||"").trim().toUpperCase();
+  if(val===MODULES[i].passwordToUnlock){ unlock(i); renderHome(); }
+  else{ document.getElementById("pwmsg"+i).textContent="❌ Passwort stimmt nicht."; }
+}
+function goHome(){ document.getElementById("play").style.display="none";
+  document.getElementById("home").style.display="block"; renderHome();
+  window.scrollTo(0,0); }
+
+/* ============ PLAY ============ */
+function startModule(i){
+  curMod=i;
+  STATIONS=[{title:MODULES[i].title,tasks:MODULES[i].tasks}];
+  queue=STATIONS[0].tasks.map((t,idx)=>idx);
+  document.getElementById("home").style.display="none";
+  document.getElementById("play").style.display="block";
+  window.scrollTo(0,0);
+  nextTask();
+}
+function nextTask(){
+  answered=false; selPair={l:null,r:null}; pairsDone=0; orderChosen=[]; scrambleBuilt=[];
+  if(queue.length===0){ return showModuleEnd(); }
+  const total=STATIONS[0].tasks.length;
+  const done=total-queue.length;
+  document.getElementById("bar").style.width=(done/total*100)+"%";
+  document.getElementById("playprog").textContent=`Noch ${queue.length} Aufgabe${queue.length===1?"":"n"}`;
+  curTask=STATIONS[0].tasks[queue[0]];
+  renderTask(curTask);
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function renderTask(t){
+  const host=document.getElementById("qhost");
+  let html=`<div class="qcard"><div class="qtype">${typeLabel(t.type)}</div>`;
+  if(t.followsReading && t._readingText){
+    html+=`<div class="reading">${t._readingText}</div>`;
+  }
+  if(t.type==="reading"){
+    html+=`<div class="reading">${t.text}</div>
+      <div class="actions"><button class="btn" onclick="readingNext()">Weiter &rarr;</button></div></div>`;
+    host.innerHTML=html; return;
+  }
+  if(t.type==="mc"||t.type==="gap"){
+    html+=`<div class="qtext">${t.q}</div><div class="opts" id="opts">`;
+    const order=shuffle(t.opts.map((o,idx)=>({o,idx})));
+    t._order=order;
+    order.forEach((item,vis)=>{ html+=`<button class="opt" data-orig="${item.idx}" onclick="pickOpt(this,${item.idx})">${item.o}</button>`; });
+    html+=`</div>`;
+  }
+  if(t.type==="pair"){
+    html+=`<div class="qtext">${t.q}</div><div class="pairwrap">`;
+    const left=t.pairs.map((p,idx)=>({txt:p.l,idx}));
+    const right=shuffle(t.pairs.map((p,idx)=>({txt:p.r,idx})));
+    html+=`<div class="paircol" id="lcol">`;
+    left.forEach(x=>html+=`<div class="pairitem" data-side="l" data-idx="${x.idx}" onclick="pickPair('l',${x.idx},this)">${x.txt}</div>`);
+    html+=`</div><div class="paircol" id="rcol">`;
+    right.forEach(x=>html+=`<div class="pairitem" data-side="r" data-idx="${x.idx}" onclick="pickPair('r',${x.idx},this)">${x.txt}</div>`);
+    html+=`</div></div>`;
+  }
+  if(t.type==="scramble"){
+    html+=`<div class="qtext">${t.q}</div>
+      <div class="tokens" id="built"></div>
+      <div class="bank" id="bank"></div>`;
+  }
+  if(t.type==="order"){
+    html+=`<div class="qtext">${t.q}</div><div class="orderlist" id="orderlist"></div>`;
+  }
+  html+=`<div class="feedback" id="fb"></div>
+    <div class="actions" id="acts"></div></div>`;
+  host.innerHTML=html;
+
+  if(t.type==="scramble"){
+    const words=t.answer.split(" ");
+    const bank=document.getElementById("bank");
+    shuffle(words.map((w,i)=>({w,i}))).forEach(x=>{
+      const b=document.createElement("button");
+      b.className="token"; b.textContent=x.w;
+      b.onclick=()=>addToken(b,x.w);
+      bank.appendChild(b);
+    });
+    setActs([{label:"Zurücksetzen",cls:"ghost",fn:resetScramble},{label:"Prüfen",cls:"",fn:checkScramble}]);
+  }
+  if(t.type==="order"){
+    const list=document.getElementById("orderlist");
+    shuffle(t.items.map((it,i)=>({it,i}))).forEach(x=>{
+      const d=document.createElement("div");
+      d.className="orderitem"; d.dataset.orig=x.i;
+      d.innerHTML=`<span class="num"></span><span>${x.it}</span>`;
+      d.onclick=()=>pickOrder(d);
+      list.appendChild(d);
+    });
+    setActs([{label:"Zurücksetzen",cls:"ghost",fn:resetOrder},{label:"Prüfen",cls:"",fn:checkOrder}]);
+  }
+}
+function typeLabel(t){return{reading:"Lesetext",mc:"Multiple Choice",gap:"Lückentext",pair:"Zuordnen",scramble:"Wortsalat",order:"Reihenfolge"}[t]||t;}
+
+/* reading: attach text to following questions */
+function readingNext(){
+  const idx=queue[0];
+  const txt=STATIONS[0].tasks[idx].text;
+  // attach to subsequent followsReading tasks until a non-follows task
+  for(let k=idx+1;k<STATIONS[0].tasks.length;k++){
+    if(STATIONS[0].tasks[k].followsReading){ STATIONS[0].tasks[k]._readingText=txt; }
+    else break;
+  }
+  queue.shift(); nextTask();
+}
+
+function setActs(arr){
+  const a=document.getElementById("acts"); a.innerHTML="";
+  arr.forEach(x=>{ const b=document.createElement("button"); b.className="btn "+x.cls; b.textContent=x.label; b.onclick=x.fn; a.appendChild(b); });
+}
+
+/* MC / GAP */
+function pickOpt(el,orig){
+  if(answered)return; answered=true;
+  const correct=curTask.correct;
+  document.querySelectorAll("#opts .opt").forEach(b=>{
+    const o=parseInt(b.dataset.orig);
+    if(o===correct)b.classList.add("ok");
+    if(b===el&&o!==correct)b.classList.add("bad");
+    b.style.pointerEvents="none";
+  });
+  finishTask(orig===correct);
+}
+
+/* PAIR */
+function pickPair(side,idx,el){
+  if(el.classList.contains("ok"))return;
+  document.querySelectorAll(`.pairitem[data-side="${side}"]`).forEach(x=>{if(!x.classList.contains("ok"))x.classList.remove("sel");});
+  selPair[side]=idx; el.classList.add("sel");
+  if(selPair.l!==null&&selPair.r!==null){
+    const ok=selPair.l===selPair.r;
+    const lEl=document.querySelector(`.pairitem[data-side="l"][data-idx="${selPair.l}"]`);
+    const rEl=document.querySelector(`.pairitem[data-side="r"][data-idx="${selPair.r}"]`);
+    if(ok){
+      lEl.classList.remove("sel");rEl.classList.remove("sel");
+      lEl.classList.add("ok");rEl.classList.add("ok");
+      lEl.style.pointerEvents="none";rEl.style.pointerEvents="none";
+      pairsDone++;
+      if(pairsDone===curTask.pairs.length){ finishTask(true); }
+    }else{
+      lEl.classList.add("bad");rEl.classList.add("bad");
+      setTimeout(()=>{lEl.classList.remove("bad","sel");rEl.classList.remove("bad","sel");},600);
+    }
+    selPair={l:null,r:null};
+  }
+}
+
+/* SCRAMBLE */
+function addToken(btn,word){
+  if(answered)return;
+  btn.classList.add("placed"); btn.style.display="none";
+  scrambleBuilt.push({word,btn});
+  renderBuilt();
+}
+function renderBuilt(){
+  const b=document.getElementById("built"); b.innerHTML="";
+  scrambleBuilt.forEach((x,i)=>{
+    const t=document.createElement("button");
+    t.className="token"; t.textContent=x.word;
+    t.onclick=()=>{ if(answered)return; x.btn.style.display=""; x.btn.classList.remove("placed"); scrambleBuilt.splice(i,1); renderBuilt(); };
+    b.appendChild(t);
+  });
+}
+function resetScramble(){ if(answered)return; scrambleBuilt.forEach(x=>{x.btn.style.display="";x.btn.classList.remove("placed");}); scrambleBuilt=[]; renderBuilt(); }
+function checkScramble(){
+  if(answered)return;
+  const built=scrambleBuilt.map(x=>x.word).join(" ");
+  const ok=built.trim()===curTask.answer.trim();
+  answered=true;
+  document.querySelectorAll("#bank .token").forEach(b=>b.style.pointerEvents="none");
+  finishTask(ok, ok?null:`Richtig wäre: „${curTask.answer}\u201C`);
+}
+
+/* ORDER */
+function pickOrder(el){
+  if(answered)return;
+  if(el.classList.contains("chosen")){
+    const orig=parseInt(el.dataset.orig);
+    orderChosen=orderChosen.filter(o=>o!==orig);
+    el.classList.remove("chosen");
+  }else{
+    orderChosen.push(parseInt(el.dataset.orig));
+    el.classList.add("chosen");
+  }
+  renumberOrder();
+}
+function renumberOrder(){
+  document.querySelectorAll("#orderlist .orderitem").forEach(el=>{
+    const orig=parseInt(el.dataset.orig);
+    const pos=orderChosen.indexOf(orig);
+    el.querySelector(".num").textContent= pos>=0 ? (pos+1) : "";
+  });
+}
+function resetOrder(){ if(answered)return; orderChosen=[]; document.querySelectorAll("#orderlist .orderitem").forEach(el=>el.classList.remove("chosen")); renumberOrder(); }
+function checkOrder(){
+  if(answered)return;
+  if(orderChosen.length!==curTask.items.length){
+    const fb=document.getElementById("fb"); fb.className="feedback show wrong";
+    fb.textContent="Bitte ordne zuerst alle Teile."; return;
+  }
+  const ok=orderChosen.every((v,i)=>v===i);
+  answered=true;
+  document.querySelectorAll("#orderlist .orderitem").forEach(el=>el.style.pointerEvents="none");
+  finishTask(ok, ok?null:"Die Reihenfolge stimmt noch nicht ganz.");
+}
+
+/* FINISH ONE TASK */
+function finishTask(ok, extraMsg){
+  const fb=document.getElementById("fb");
+  if(fb){
+    fb.className="feedback show "+(ok?"good":"wrong");
+    fb.innerHTML=(ok?"✅ Richtig! ":"❌ Leider nicht. ")+(curTask.exp||"")+(extraMsg?("<br>"+extraMsg):"");
+  }
+  const idx=queue.shift();
+  if(!ok){ queue.push(idx); } // endless stack
+  const acts=document.getElementById("acts");
+  if(acts){ acts.innerHTML=""; const b=document.createElement("button"); b.className="btn"; b.style.flex="1";
+    b.textContent="Weiter →"; b.onclick=nextTask; acts.appendChild(b); }
+  else {
+    // mc/gap/pair have no acts container content; create continue
+    const host=document.querySelector(".qcard");
+    const a=document.createElement("div"); a.className="actions";
+    const b=document.createElement("button"); b.className="btn"; b.style.flex="1";
+    b.textContent="Weiter →"; b.onclick=nextTask; a.appendChild(b); host.appendChild(a);
+  }
+}
+
+/* MODULE END */
+function showModuleEnd(){
+  const m=MODULES[curMod];
+  const host=document.getElementById("qhost");
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("playprog").textContent="Geschafft!";
+  const savedName=loadState().name||"";
+  if(curMod<MODULES.length-1){
+    unlock(curMod+1);
+    host.innerHTML=`<div class="endcard">
+      <h2>🎉 Modul ${m.id} geschafft!</h2>
+      <p>Super gemacht! Hier ist dein Passwort für das nächste Modul:</p>
+      <button class="pwbox" onclick="copyPw('${m.passwordReward}')">
+        <small>Passwort (zum Kopieren tippen)</small>${m.passwordReward}</button>
+      <p style="font-size:.85rem;color:var(--muted)">Notiere es dir \u2013 du brauchst es, um Modul ${m.id+1} freizuschalten.</p>
+      <p style="margin-top:18px;font-weight:600;color:var(--accent-deep)">Hol dir dein Modul-Zertifikat:</p>
+      <div class="namerow">
+        <input type="text" id="certname" placeholder="Dein Name" value="${escapeHtml(savedName)}">
+        <button class="btn" onclick="makeCert(${curMod})">Zertifikat</button>
+      </div>
+      <div id="certhost"></div>
+      <div class="actions"><button class="btn ghost" onclick="goHome()">Zur Übersicht</button></div>
+    </div>`;
+  }else{
+    if(window.goatcounter&&window.goatcounter.count){
+      try{window.goatcounter.count({path:"lektion1-lernpfad-completed",title:"Lektion 1 abgeschlossen",event:true});}catch(_){}
+    }
+    host.innerHTML=`<div class="endcard">
+      <h2>🏆 Lektion 1 abgeschlossen!</h2>
+      <p>Du hast alle 4 Module von „Mein Beruf\u201C geschafft. Erstelle dir dein Abschluss-Zertifikat:</p>
+      <div class="namerow">
+        <input type="text" id="certname" placeholder="Dein Name" value="${escapeHtml(savedName)}">
+        <button class="btn" onclick="makeCert(${curMod})">Zertifikat</button>
+      </div>
+      <div id="certhost"></div>
+      <div class="actions"><button class="btn ghost" onclick="goHome()">Zur Übersicht</button></div>
+    </div>`;
+  }
+  window.scrollTo(0,0);
+}
+function escapeHtml(s){return String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));}
+function copyPw(pw){ try{navigator.clipboard.writeText(pw);}catch(_){ } }
+
+/* CERTIFICATE */
+function makeCert(modIdx){
+  const name=(document.getElementById("certname").value||"Teilnehmer/in").trim();
+  const s=loadState(); s.name=name; saveState(s);
+  const date=new Date().toLocaleDateString("de-DE");
+  const isFinal=(modIdx===MODULES.length-1);
+  const m=MODULES[modIdx];
+  const titleLine=isFinal ? "Lektion 1 — Mein Beruf" : m.title.replace("—","–");
+  const subLine=isFinal ? "Aspekte Beruf B2 · 120 Aufgaben · 4 Module" : `Lektion 1 — Mein Beruf · 30 Aufgaben`;
+  const head=isFinal ? "Zertifikat" : "Modul-Zertifikat";
+  const fname=isFinal ? "zertifikat-lektion1.svg" : `zertifikat-lektion1-modul${m.id}.svg`;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="440" viewBox="0 0 640 440">
+    <rect width="640" height="440" fill="#fff" stroke="#1a6cb5" stroke-width="10"/>
+    <rect x="22" y="22" width="596" height="396" fill="none" stroke="#dceaf6" stroke-width="3"/>
+    <text x="320" y="90" text-anchor="middle" font-family="Georgia,serif" font-size="30" fill="#0e4576" font-weight="bold">${head}</text>
+    <text x="320" y="140" text-anchor="middle" font-family="Arial" font-size="15" fill="#5d6b78">Lern Deutsch mit Arash</text>
+    <text x="320" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#1f2730">${escapeXml(name)}</text>
+    <text x="320" y="245" text-anchor="middle" font-family="Arial" font-size="15" fill="#5d6b78">${isFinal?"hat die Lektion erfolgreich abgeschlossen:":"hat dieses Modul erfolgreich abgeschlossen:"}</text>
+    <text x="320" y="290" text-anchor="middle" font-family="Georgia,serif" font-size="21" fill="#1a6cb5" font-weight="bold">${escapeXml(titleLine)}</text>
+    <text x="320" y="320" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6b78">${escapeXml(subLine)}</text>
+    <text x="320" y="380" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6b78">${date}</text>
+    <text x="320" y="405" text-anchor="middle" font-family="Arial" font-size="12" fill="#1a6cb5">Arash Guitoo</text>
+  </svg>`;
+  const blob=new Blob([svg],{type:"image/svg+xml"});
+  const url=URL.createObjectURL(blob);
+  document.getElementById("certhost").innerHTML=
+    `<div style="margin:14px 0">${svg}</div>
+     <a class="btn" href="${url}" download="${fname}" style="display:inline-block;text-decoration:none">Zertifikat herunterladen</a>`;
+}
+function escapeXml(s){return s.replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));}
+
+/* INIT */
+renderHome();
+</script>
+</body>
+</html>

@@ -8,6 +8,7 @@ Erstellt von Arash Guitoo · veröffentlicht über GitHub Pages.
 - `index.html` — Startseite mit Buchcover und Übersichtskarten
 - `cover.jpg` — Buchcover
 - `lektion1-uebung.html` — **Lektion 1: Mein Beruf** (4 Module, 120 Aufgaben)
+- `relativsaetze-uebung.html` — **Zusatzlektion: Relativsätze** (Grammatik + 3 Module, 90 Aufgaben)
 
 ## Lektion 1 — Mein Beruf
 
@@ -25,6 +26,19 @@ Erstellt von Arash Guitoo · veröffentlicht über GitHub Pages.
 - Fortschritt wird lokal gespeichert (localStorage)
 - Namenseingabe und herunterladbares Zertifikat **nach jedem Modul** sowie ein Abschluss-Zertifikat
 - Mobil-optimiert (Smartphone-tauglich)
+
+## Zusatzlektion — Relativsätze
+
+Eigenständige Grammatik-Lektion (Pflaumenlila) mit Erklärteil und Übungen.
+
+- **Oben:** Grammatik kompakt — Relativpronomen-Tabelle (alle Fälle), „welcher Fall?", Relativsätze mit Präposition (*über den, mit dem, an dem …*), sowie *wo / was / wer*.
+- **Unten:** 3 Übungsmodule à 30 Aufgaben mit Passwort-Mechanik und Zertifikat.
+
+| Modul | Thema |
+|-------|-------|
+| 1 | Pronomen & Fall (der/den/dem/dessen) |
+| 2 | Relativsätze mit Präposition |
+| 3 | wo, was & wer (+ gemischte Wiederholung) |
 
 ## Veröffentlichen über GitHub Pages
 

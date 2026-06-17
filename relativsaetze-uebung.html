@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relativsätze — Zusatzlektion · Lern Deutsch mit Arash</title>
+<style>
+:root{
+  --accent:#7a4d8c; --accent-deep:#5a3567; --paper-warm:#ecdef0;
+  --ink:#1f2730; --muted:#5d6b78; --bg:#f6f3f8; --card:#ffffff;
+  --ok:#2e8b57; --bad:#c0392b; --line:#e6dcec;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;padding:0 0 60px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header{background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  color:#fff;padding:26px 16px;text-align:center}
+header h1{font-size:1.45rem;margin-bottom:4px}
+header p{opacity:.92;font-size:.92rem}
+.backbtn{display:inline-flex;align-items:center;gap:6px;background:var(--paper-warm);
+  color:var(--accent-deep);text-decoration:none;font-weight:600;border:1px solid var(--line);
+  padding:8px 14px;border-radius:10px;font-size:.85rem;cursor:pointer;margin-top:14px}
+.backbtn:active{transform:translateY(1px)}
+
+/* ===== Grammatik-Teil ===== */
+.gram{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px;margin-top:18px;box-shadow:0 2px 10px rgba(90,53,103,.07)}
+.gram h2{color:var(--accent-deep);font-size:1.2rem;margin-bottom:10px}
+.gram h3{color:var(--accent);font-size:1.02rem;margin:18px 0 8px}
+.gram p{margin-bottom:10px;font-size:.95rem}
+.gram .ex{font-family:Georgia,serif;font-style:italic;background:var(--paper-warm);
+  border-radius:9px;padding:9px 12px;margin:8px 0;font-size:.95rem}
+.gram .ex b{color:var(--accent-deep);font-style:normal}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.toc a{font-size:.82rem;background:var(--paper-warm);color:var(--accent-deep);
+  text-decoration:none;padding:6px 11px;border-radius:18px;font-weight:600}
+table.gt{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9rem}
+table.gt th,table.gt td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+table.gt th{background:var(--paper-warm);color:var(--accent-deep)}
+table.gt td.row{background:var(--paper-warm);color:var(--accent-deep);font-weight:600}
+.rule{border-left:4px solid var(--accent);background:#faf6fc;border-radius:0 9px 9px 0;
+  padding:10px 14px;margin:10px 0;font-size:.92rem}
+.startbtn-wrap{text-align:center;margin:24px 0 4px}
+
+/* ===== Module / Übungen ===== */
+.section-title{font-size:1.1rem;color:var(--accent-deep);margin:26px 0 12px;font-weight:700}
+.modgrid{display:grid;gap:14px}
+.modcard{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px;box-shadow:0 2px 10px rgba(90,53,103,.06);position:relative}
+.modcard h3{font-size:1.08rem;color:var(--accent-deep);margin-bottom:4px}
+.modcard .sub{color:var(--muted);font-size:.88rem;margin-bottom:10px}
+.modcard.locked{opacity:.6}
+.lockrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+.lockrow input{flex:1;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:.9rem}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:10px;
+  padding:11px 18px;font-size:.95rem;font-weight:600;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.badge{display:inline-block;background:var(--paper-warm);color:var(--accent-deep);
+  font-size:.72rem;padding:3px 9px;border-radius:20px;margin:2px 3px 0 0;font-weight:600}
+.stat{font-size:.8rem;color:var(--muted);margin-top:10px}
+.lock-ico{position:absolute;top:16px;right:16px;font-size:1.1rem}
+
+#play{display:none}
+.progress{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin:16px 0}
+.progress>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px;box-shadow:0 2px 10px rgba(90,53,103,.06)}
+.qtype{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);
+  font-weight:700;margin-bottom:8px}
+.qtext{font-size:1.05rem;margin-bottom:16px;font-weight:500}
+.reading{background:var(--paper-warm);border-radius:12px;padding:14px;margin-bottom:14px;
+  font-size:.95rem;line-height:1.6;white-space:pre-line}
+.opts{display:grid;gap:9px}
+.opt{padding:13px 14px;border:1.5px solid var(--line);border-radius:11px;cursor:pointer;
+  background:#fff;font-size:.95rem;transition:.15s;text-align:left}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:var(--paper-warm)}
+.opt.ok{border-color:var(--ok);background:#e8f6ee}
+.opt.bad{border-color:var(--bad);background:#fbeae8}
+.pairwrap{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.paircol{display:grid;gap:8px}
+.pairitem{padding:12px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;
+  background:#fff;font-size:.92rem;text-align:center;transition:.15s}
+.pairitem.sel{border-color:var(--accent);background:var(--paper-warm)}
+.pairitem.ok{border-color:var(--ok);background:#e8f6ee;cursor:default}
+.pairitem.bad{border-color:var(--bad);background:#fbeae8}
+.tokens{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;min-height:48px;
+  padding:12px;border:1.5px dashed var(--line);border-radius:11px}
+.bank{display:flex;flex-wrap:wrap;gap:8px}
+.token{padding:9px 13px;border:1.5px solid var(--accent);border-radius:9px;
+  background:var(--paper-warm);color:var(--accent-deep);cursor:pointer;font-size:.92rem;font-weight:500}
+.token.placed{background:#fff;border-color:var(--line);color:var(--ink)}
+.orderlist{display:grid;gap:8px;margin-bottom:14px}
+.orderitem{padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;
+  cursor:pointer;font-size:.92rem;display:flex;align-items:center;gap:10px}
+.orderitem .num{min-width:26px;height:26px;border-radius:50%;background:var(--paper-warm);
+  color:var(--accent-deep);display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:700}
+.orderitem.chosen{border-color:var(--accent);background:var(--paper-warm)}
+.feedback{margin-top:14px;padding:13px;border-radius:11px;font-size:.9rem;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e8f6ee;color:#1d6b41}
+.feedback.wrong{background:#fbeae8;color:#922}
+.actions{display:flex;gap:10px;margin-top:16px}
+.actions .btn{flex:1}
+.endcard{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:28px 20px;text-align:center;box-shadow:0 4px 18px rgba(90,53,103,.1)}
+.endcard h2{color:var(--accent-deep);margin-bottom:10px}
+.pwbox{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;
+  border:none;border-radius:14px;padding:22px;font-size:1.5rem;font-weight:800;
+  letter-spacing:1px;cursor:pointer;width:100%;margin:18px 0;font-family:monospace}
+.pwbox small{display:block;font-size:.72rem;font-weight:400;letter-spacing:0;
+  opacity:.85;margin-bottom:6px;font-family:-apple-system,sans-serif}
+.namerow{display:flex;gap:8px;margin:14px 0}
+.namerow input{flex:1;padding:11px;border:1px solid var(--line);border-radius:10px}
+footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:40px;padding:0 16px}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-size:.85rem}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>Relativsätze</h1>
+  <p>Zusatzlektion · Grammatik &amp; Übungen · Aspekte Beruf B2</p>
+</header>
+
+<div class="wrap">
+  <!-- HOME -->
+  <div id="home">
+    <a class="backbtn" href="index.html">&larr; Zurück zur Startseite</a>
+
+    <!-- ===== GRAMMATIK ===== -->
+    <div class="gram" id="gram">
+      <h2>Relativsätze — kurz erklärt</h2>
+      <p>Ein Relativsatz gibt mehr Informationen über ein Nomen. Er beginnt mit einem <b>Relativpronomen</b> (<i>der, die, das …</i>) und das Verb steht am <b>Ende</b>.</p>
+      <div class="ex">Das ist der Kollege. Der Kollege hilft mir oft. → Das ist der Kollege, <b>der</b> mir oft <b>hilft</b>.</div>
+      <div class="toc">
+        <a href="#g1">1 · Pronomen-Tabelle</a>
+        <a href="#g2">2 · Welcher Fall?</a>
+        <a href="#g3">3 · mit Präposition</a>
+        <a href="#g4">4 · wo / was / wer</a>
+      </div>
+
+      <h3 id="g1">1 · Die Relativpronomen</h3>
+      <p>Die Relativpronomen sind fast gleich wie der bestimmte Artikel — nur im <b>Dativ Plural</b> und im <b>Genitiv</b> sind sie anders.</p>
+      <table class="gt">
+        <tr><th></th><th>maskulin</th><th>feminin</th><th>neutrum</th><th>Plural</th></tr>
+        <tr><td class="row">Nominativ</td><td>der</td><td>die</td><td>das</td><td>die</td></tr>
+        <tr><td class="row">Akkusativ</td><td>den</td><td>die</td><td>das</td><td>die</td></tr>
+        <tr><td class="row">Dativ</td><td>dem</td><td>der</td><td>dem</td><td>denen</td></tr>
+        <tr><td class="row">Genitiv</td><td>dessen</td><td>deren</td><td>dessen</td><td>deren</td></tr>
+      </table>
+
+      <h3 id="g2">2 · Welcher Fall? Das Verb im Relativsatz entscheidet</h3>
+      <p>Das <b>Genus</b> (m/f/n) kommt vom Bezugswort. Der <b>Fall</b> kommt von der Funktion im Relativsatz.</p>
+      <div class="ex">der Mann, <b>der</b> dort steht (Nominativ — er steht)</div>
+      <div class="ex">der Mann, <b>den</b> ich kenne (Akkusativ — ich kenne ihn)</div>
+      <div class="ex">der Mann, <b>dem</b> ich helfe (Dativ — ich helfe ihm)</div>
+      <div class="ex">der Mann, <b>dessen</b> Auto kaputt ist (Genitiv — sein Auto)</div>
+      <div class="rule">Trick: Setze probeweise <i>er / ihn / ihm / sein</i> ein. Welches Pronomen passt, der gleiche Fall gilt fürs Relativpronomen.</div>
+
+      <h3 id="g3">3 · Relativsätze mit Präposition</h3>
+      <p>Braucht das Verb eine Präposition, steht sie <b>vor</b> dem Relativpronomen. Die Präposition bestimmt dann den Fall.</p>
+      <div class="ex">der Kollege, <b>mit dem</b> ich arbeite (arbeiten mit + Dativ)</div>
+      <div class="ex">das Projekt, <b>an dem</b> wir arbeiten (arbeiten an + Dativ)</div>
+      <div class="ex">die Chefin, <b>über die</b> alle reden (reden über + Akkusativ)</div>
+      <div class="ex">der Stuhl, <b>auf dem</b> du sitzt (sitzen auf + Dativ)</div>
+      <div class="rule">Reihenfolge: <b>Komma → Präposition → Relativpronomen → … → Verb</b>.<br>
+        Nicht: <i>der Mann, den ich über rede</i> · Sondern: <i>der Mann, <b>über den</b> ich rede</i>.</div>
+
+      <h3 id="g4">4 · wo, was und wer</h3>
+      <p><b>wo</b> ersetzt oft „Präposition + Pronomen" bei Orten:</p>
+      <div class="ex">die Firma, <b>in der</b> ich arbeite = die Firma, <b>wo</b> ich arbeite</div>
+      <p><b>was</b> steht nach <i>etwas, nichts, alles, das</i> und nach ganzen Sätzen:</p>
+      <div class="ex">Das ist alles, <b>was</b> ich weiß.</div>
+      <div class="ex">Er kam zu spät, <b>was</b> mich geärgert hat.</div>
+      <p><b>wer</b> bedeutet „derjenige, der" (ohne Bezugswort):</p>
+      <div class="ex"><b>Wer</b> fleißig ist, (der) hat Erfolg.</div>
+
+      <div class="startbtn-wrap">
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:10px">Bereit? Trainiere mit den Übungsmodulen unten. 👇</p>
+      </div>
+    </div>
+
+    <div class="section-title">Übungsmodule</div>
+    <div class="modgrid" id="modgrid"></div>
+    <footer>Lern Deutsch mit Arash · Zusatzlektion Relativsätze</footer>
+  </div>
+
+  <!-- PLAY -->
+  <div id="play">
+    <div class="topbar">
+      <a class="backbtn" href="#" onclick="goHome();return false">&larr; Zurück zur Übersicht</a>
+      <span id="playprog">Aufgabe 1</span>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+    <div id="qhost"></div>
+  </div>
+</div>
+
+<script data-goatcounter="https://aguitoo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+<script>
+/* ============ AUFGABEN-DATEN ============ */
+const MODUL_1 = {
+  id:1, title:"Modul 1 — Pronomen & Fall",
+  subtitle:"der/die/das · Nominativ, Akkusativ, Dativ, Genitiv",
+  topics:["Relativpronomen","Nominativ","Akkusativ","Dativ"],
+  passwordToUnlock:null, passwordReward:"M2-PRAEPOSITION-2026",
+  tasks:[
+    {type:"mc", q:"Das ist der Kollege, ___ mir jeden Tag hilft.", opts:["der","den","dem","dessen"], correct:0, exp:"Er hilft (Nominativ, maskulin) → „der\u201C."},
+    {type:"mc", q:"Das ist die Frau, ___ ich gestern kennengelernt habe.", opts:["der","die","dem","deren"], correct:1, exp:"Ich habe sie kennengelernt (Akkusativ, feminin) → „die\u201C."},
+    {type:"mc", q:"Der Mann, ___ ich helfe, ist mein Nachbar.", opts:["der","den","dem","dessen"], correct:2, exp:"helfen + Dativ → maskulin Dativ „dem\u201C."},
+    {type:"gap", q:"Das ist das Kind, ___ im Garten spielt.", opts:["das","dem","dessen","den"], correct:0, exp:"Es spielt (Nominativ, neutrum) → „das\u201C."},
+    {type:"mc", q:"Die Studenten, ___ ich oft treffe, sind sehr nett.", opts:["die","denen","der","deren"], correct:0, exp:"Ich treffe sie (Akkusativ, Plural) → „die\u201C."},
+    {type:"mc", q:"Das sind die Nachbarn, ___ ich oft helfe.", opts:["die","denen","deren","der"], correct:1, exp:"helfen + Dativ, Plural → „denen\u201C."},
+    {type:"gap", q:"Der Mann, ___ Auto kaputt ist, wartet auf den Bus.", opts:["dessen","dem","den","der"], correct:0, exp:"sein Auto (Genitiv, maskulin) → „dessen\u201C."},
+    {type:"mc", q:"Die Kollegin, ___ Büro neben meinem ist, heißt Sara.", opts:["deren","dessen","der","die"], correct:0, exp:"ihr Büro (Genitiv, feminin) → „deren\u201C."},
+    {type:"pair", q:"Ordne Relativpronomen und Fall zu (maskulin):", pairs:[
+      {l:"der",r:"Nominativ"},
+      {l:"den",r:"Akkusativ"},
+      {l:"dem",r:"Dativ"},
+      {l:"dessen",r:"Genitiv"}], exp:"Maskuline Relativpronomen in den vier Fällen."},
+    {type:"mc", q:"Das Buch, ___ ich gerade lese, ist spannend.", opts:["das","dem","dessen","der"], correct:0, exp:"Ich lese es (Akkusativ, neutrum) → „das\u201C (Form gleich wie Nominativ)."},
+    {type:"gap", q:"Der Chef, ___ wir vertrauen, ist fair.", opts:["dem","den","der","dessen"], correct:0, exp:"vertrauen + Dativ → „dem\u201C."},
+    {type:"mc", q:"Welcher Satz ist richtig?", opts:["Der Mann, den hier wohnt, ist Arzt.","Der Mann, der hier wohnt, ist Arzt.","Der Mann, dem hier wohnt, ist Arzt.","Der Mann, dessen hier wohnt, ist Arzt."], correct:1, exp:"Er wohnt (Nominativ) → „der\u201C."},
+    {type:"scramble", q:"Bilde den Relativsatz:", answer:"Das ist der Kollege der mir oft hilft", exp:"Bezugswort + Komma + Relativpronomen (Nom.) + … + Verb am Ende."},
+    {type:"mc", q:"Die Lehrerin, ___ wir viel verdanken, geht in Rente.", opts:["der","die","den","deren"], correct:0, exp:"verdanken + Dativ → feminin Dativ „der\u201C."},
+    {type:"gap", q:"Das sind die Dokumente, ___ ich brauche.", opts:["die","denen","deren","das"], correct:0, exp:"Ich brauche sie (Akkusativ, Plural) → „die\u201C."},
+    {type:"mc", q:"Der Student, ___ Prüfung morgen ist, lernt noch.", opts:["dessen","dem","den","der"], correct:0, exp:"seine Prüfung (Genitiv, maskulin) → „dessen\u201C."},
+    {type:"pair", q:"Ordne Bezugswort und richtiges Pronomen zu (Akkusativ):", pairs:[
+      {l:"der Mann, … ich sehe",r:"den"},
+      {l:"die Frau, … ich sehe",r:"die"},
+      {l:"das Kind, … ich sehe",r:"das"},
+      {l:"die Leute, … ich sehe",r:"die"}], exp:"Akkusativ: den / die / das / die."},
+    {type:"mc", q:"Das Auto, ___ vor dem Haus steht, ist neu.", opts:["das","dem","dessen","der"], correct:0, exp:"Es steht (Nominativ, neutrum) → „das\u201C."},
+    {type:"gap", q:"Die Frau, ___ Tasche ich gefunden habe, ist dankbar.", opts:["deren","dessen","die","der"], correct:0, exp:"ihre Tasche (Genitiv, feminin) → „deren\u201C."},
+    {type:"mc", q:"Die Gäste, ___ wir eingeladen haben, kommen heute.", opts:["die","denen","deren","der"], correct:0, exp:"Wir haben sie eingeladen (Akkusativ, Plural) → „die\u201C."},
+    {type:"scramble", q:"Bilde den Relativsatz:", answer:"Das ist die Frau die ich gestern getroffen habe", exp:"Akkusativ feminin „die\u201C, Verb am Ende."},
+    {type:"mc", q:"Der Freund, ___ ich oft schreibe, wohnt in Berlin.", opts:["dem","den","der","dessen"], correct:0, exp:"schreiben + Dativ (jemandem schreiben) → „dem\u201C."},
+    {type:"gap", q:"Das Projekt, ___ wir gestartet haben, läuft gut.", opts:["das","dem","dessen","den"], correct:0, exp:"Wir haben es gestartet (Akkusativ, neutrum) → „das\u201C."},
+    {type:"mc", q:"Welcher Satz ist korrekt?", opts:["Die Leute, denen ich helfe, sind nett.","Die Leute, die ich helfe, sind nett.","Die Leute, der ich helfe, sind nett.","Die Leute, deren ich helfe, sind nett."], correct:0, exp:"helfen + Dativ, Plural → „denen\u201C."},
+    {type:"mc", q:"Der Kollege, ___ Idee gewonnen hat, freut sich.", opts:["dessen","dem","den","der"], correct:0, exp:"seine Idee (Genitiv, maskulin) → „dessen\u201C."},
+    {type:"pair", q:"Ordne Fall und Plural-Pronomen zu:", pairs:[
+      {l:"Nominativ Plural",r:"die"},
+      {l:"Akkusativ Plural",r:"die"},
+      {l:"Dativ Plural",r:"denen"},
+      {l:"Genitiv Plural",r:"deren"}], exp:"Plural: die / die / denen / deren."},
+    {type:"gap", q:"Die Stadt, ___ ich besucht habe, war schön.", opts:["die","der","dem","deren"], correct:0, exp:"Ich habe sie besucht (Akkusativ, feminin) → „die\u201C."},
+    {type:"mc", q:"Der Patient, ___ der Arzt geholfen hat, ist gesund.", opts:["dem","den","der","dessen"], correct:0, exp:"helfen + Dativ → „dem\u201C."},
+    {type:"scramble", q:"Bilde den Relativsatz:", answer:"Das ist der Mann dem ich vertraue", exp:"vertrauen + Dativ → „dem\u201C, Verb am Ende."},
+    {type:"mc", q:"Das ist alles, ___ ich darüber weiß.", opts:["was","das","dem","wer"], correct:0, exp:"Nach „alles\u201C steht „was\u201C."}
+  ]
+};
+
+const MODUL_2 = {
+  id:2, title:"Modul 2 — Mit Präposition",
+  subtitle:"über den, mit dem, an dem, auf dem …",
+  topics:["Präposition + Pronomen","Akkusativ","Dativ","Wortstellung"],
+  passwordToUnlock:"M2-PRAEPOSITION-2026", passwordReward:"M3-WOWASWER-2026",
+  tasks:[
+    {type:"mc", q:"Der Kollege, ___ ich arbeite, ist sehr nett.", opts:["mit dem","mit den","mit der","über den"], correct:0, exp:"arbeiten mit + Dativ, maskulin → „mit dem\u201C."},
+    {type:"mc", q:"Die Chefin, ___ alle reden, ist neu.", opts:["über die","über der","mit die","über den"], correct:0, exp:"reden über + Akkusativ, feminin → „über die\u201C."},
+    {type:"mc", q:"Das Projekt, ___ wir arbeiten, ist wichtig.", opts:["an dem","an das","auf dem","über das"], correct:0, exp:"arbeiten an + Dativ, neutrum → „an dem\u201C."},
+    {type:"gap", q:"Der Stuhl, ___ du sitzt, ist kaputt.", opts:["auf dem","auf den","an dem","über den"], correct:0, exp:"sitzen auf + Dativ, maskulin → „auf dem\u201C."},
+    {type:"mc", q:"Die Firma, ___ ich mich beworben habe, hat abgesagt.", opts:["bei der","bei dem","mit der","über die"], correct:0, exp:"sich bewerben bei + Dativ, feminin → „bei der\u201C."},
+    {type:"mc", q:"Der Mann, ___ ich rede, ist mein Onkel.", opts:["über den","über dem","mit den","über der"], correct:0, exp:"reden über + Akkusativ, maskulin → „über den\u201C."},
+    {type:"pair", q:"Ordne Verb und Präposition + Fall zu:", pairs:[
+      {l:"arbeiten",r:"an + Dativ"},
+      {l:"reden",r:"über + Akkusativ"},
+      {l:"warten",r:"auf + Akkusativ"},
+      {l:"sich freuen",r:"über + Akkusativ"}], exp:"Verben mit festen Präpositionen."},
+    {type:"mc", q:"Der Bus, ___ ich warte, kommt zu spät.", opts:["auf den","auf dem","über den","an den"], correct:0, exp:"warten auf + Akkusativ, maskulin → „auf den\u201C."},
+    {type:"gap", q:"Das Thema, ___ wir sprechen, ist schwierig.", opts:["über das","über dem","von das","an dem"], correct:0, exp:"sprechen über + Akkusativ, neutrum → „über das\u201C."},
+    {type:"mc", q:"Die Kollegin, ___ ich mich verlasse, ist im Urlaub.", opts:["auf die","auf der","über die","mit der"], correct:0, exp:"sich verlassen auf + Akkusativ, feminin → „auf die\u201C."},
+    {type:"mc", q:"Der Freund, ___ ich mich treffe, kommt aus Wien.", opts:["mit dem","mit den","über den","bei dem"], correct:0, exp:"sich treffen mit + Dativ, maskulin → „mit dem\u201C."},
+    {type:"scramble", q:"Bilde den Relativsatz:", answer:"Das ist der Kollege mit dem ich arbeite", exp:"Präposition + Relativpronomen direkt nach dem Komma, Verb am Ende."},
+    {type:"mc", q:"Das Haus, ___ wir wohnen, ist alt.", opts:["in dem","in das","auf dem","an dem"], correct:0, exp:"wohnen in + Dativ, neutrum → „in dem\u201C."},
+    {type:"gap", q:"Die Leute, ___ ich mich gut verstehe, sind Kollegen.", opts:["mit denen","mit den","mit der","über die"], correct:0, exp:"sich verstehen mit + Dativ, Plural → „mit denen\u201C."},
+    {type:"mc", q:"Der Computer, ___ ich arbeite, ist langsam.", opts:["an dem","auf dem","mit dem","über den"], correct:0, exp:"arbeiten an + Dativ (am Computer), maskulin → „an dem\u201C."},
+    {type:"mc", q:"Das Auto, ___ ich gespart habe, ist endlich da.", opts:["für das","für dem","auf das","über das"], correct:0, exp:"sparen für + Akkusativ, neutrum → „für das\u201C."},
+    {type:"pair", q:"Ordne Anfang und passende Fortsetzung zu:", pairs:[
+      {l:"der Tisch, auf dem …",r:"die Bücher liegen"},
+      {l:"die Frau, mit der …",r:"ich spreche"},
+      {l:"das Ziel, an dem …",r:"wir arbeiten"},
+      {l:"der Chef, über den …",r:"alle reden"}], exp:"Präposition + Pronomen passend zum Verb."},
+    {type:"mc", q:"Die Aufgabe, ___ ich mich konzentriere, ist schwer.", opts:["auf die","auf der","über die","an die"], correct:0, exp:"sich konzentrieren auf + Akkusativ, feminin → „auf die\u201C."},
+    {type:"gap", q:"Der Kollege, ___ ich mich verlasse, hilft immer.", opts:["auf den","auf dem","über den","mit den"], correct:0, exp:"sich verlassen auf + Akkusativ, maskulin → „auf den\u201C."},
+    {type:"mc", q:"Welcher Satz ist richtig?", opts:["Der Mann, den ich über rede, …","Der Mann, über den ich rede, …","Der Mann, über dem ich rede, …","Der Mann, ich über den rede, …"], correct:1, exp:"Reihenfolge: Komma + Präposition + Pronomen; reden über + Akk."},
+    {type:"mc", q:"Das Büro, ___ ich sitze, hat kein Fenster.", opts:["in dem","in das","an dem","auf dem"], correct:0, exp:"sitzen in + Dativ (im Büro), neutrum → „in dem\u201C."},
+    {type:"scramble", q:"Bilde den Relativsatz:", answer:"Das ist das Projekt an dem wir arbeiten", exp:"arbeiten an + Dativ, neutrum → „an dem\u201C."},
+    {type:"mc", q:"Die Frau, ___ ich mich erinnere, war meine Lehrerin.", opts:["an die","an der","über die","auf die"], correct:0, exp:"sich erinnern an + Akkusativ, feminin → „an die\u201C."},
+    {type:"gap", q:"Der Termin, ___ ich mich vorbereite, ist morgen.", opts:["auf den","auf dem","über den","an den"], correct:0, exp:"sich vorbereiten auf + Akkusativ, maskulin → „auf den\u201C."},
+    {type:"mc", q:"Das ist der Grund, ___ ich gekündigt habe.", opts:["aus dem","aus den","für dem","über den"], correct:0, exp:"aus dem Grund (Dativ), maskulin → „aus dem\u201C."},
+    {type:"pair", q:"Ordne Präposition und typischen Fall zu:", pairs:[
+      {l:"mit",r:"Dativ"},
+      {l:"bei",r:"Dativ"},
+      {l:"für",r:"Akkusativ"},
+      {l:"über (Thema)",r:"Akkusativ"}], exp:"Feste Fälle nach Präpositionen."},
+    {type:"mc", q:"Die Kinder, ___ ich mich kümmere, sind im Kindergarten.", opts:["um die","um den","über die","auf die"], correct:0, exp:"sich kümmern um + Akkusativ, Plural → „um die\u201C."},
+    {type:"gap", q:"Das Hotel, ___ wir übernachtet haben, war teuer.", opts:["in dem","in das","an dem","auf dem"], correct:0, exp:"übernachten in + Dativ, neutrum → „in dem\u201C."},
+    {type:"scramble", q:"Bilde den Relativsatz:", answer:"Das ist die Chefin über die alle reden", exp:"reden über + Akkusativ, feminin → „über die\u201C."},
+    {type:"mc", q:"Der Kuli, ___ ich schreibe, gehört dir.", opts:["mit dem","mit den","auf dem","über den"], correct:0, exp:"schreiben mit + Dativ, maskulin → „mit dem\u201C."}
+  ]
+};
+
+const MODUL_3 = {
+  id:3, title:"Modul 3 — wo, was & wer",
+  subtitle:"Ortsangaben mit wo · was nach alles/nichts · wer = derjenige",
+  topics:["wo","was","wer","gemischt"],
+  passwordToUnlock:"M3-WOWASWER-2026", passwordReward:"RELATIV-MEISTER-2026",
+  tasks:[
+    {type:"mc", q:"Die Firma, ___ ich arbeite, ist in Kiel.", opts:["wo","die","der","das"], correct:0, exp:"Ort → „wo\u201C (= in der). Auch „in der\u201C wäre möglich, hier ist „wo\u201C gefragt."},
+    {type:"mc", q:"Das ist alles, ___ ich weiß.", opts:["was","das","wo","wer"], correct:0, exp:"Nach „alles\u201C steht „was\u201C."},
+    {type:"mc", q:"___ fleißig lernt, hat Erfolg.", opts:["Wer","Was","Wo","Der"], correct:0, exp:"„Wer\u201C = derjenige, der (ohne Bezugswort)."},
+    {type:"gap", q:"Es gibt nichts, ___ mich überrascht.", opts:["was","das","wo","wer"], correct:0, exp:"Nach „nichts\u201C steht „was\u201C."},
+    {type:"mc", q:"Die Stadt, ___ ich geboren bin, liegt im Iran.", opts:["wo","die","der","was"], correct:0, exp:"Ort → „wo\u201C (= in der)."},
+    {type:"mc", q:"Er hat die Prüfung bestanden, ___ uns sehr freut.", opts:["was","das","wo","wer"], correct:0, exp:"„was\u201C bezieht sich auf den ganzen Satz."},
+    {type:"pair", q:"Ordne zu, wann man was benutzt:", pairs:[
+      {l:"nach alles/nichts",r:"was"},
+      {l:"bei Orten",r:"wo"},
+      {l:"„derjenige, der\u201C",r:"wer"},
+      {l:"nach ganzem Satz",r:"was"}], exp:"Verwendung von was / wo / wer."},
+    {type:"mc", q:"Das Land, ___ ich Urlaub gemacht habe, war Italien.", opts:["wo","das","dem","was"], correct:0, exp:"Ort → „wo\u201C."},
+    {type:"gap", q:"___ zuerst kommt, bekommt den besten Platz.", opts:["Wer","Was","Wo","Den"], correct:0, exp:"„Wer\u201C = derjenige, der."},
+    {type:"mc", q:"Das ist das Beste, ___ mir passieren konnte.", opts:["was","das","wo","wer"], correct:0, exp:"Nach Superlativ-Neutrum („das Beste\u201C) steht „was\u201C."},
+    {type:"mc", q:"Das Café, ___ wir uns oft treffen, hat zu.", opts:["wo","das","dem","was"], correct:0, exp:"Ort → „wo\u201C (= in dem)."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Das ist alles was ich darüber weiß", exp:"Nach „alles\u201C steht „was\u201C, Verb am Ende."},
+    {type:"mc", q:"___ viel arbeitet, braucht auch Pausen.", opts:["Wer","Was","Wo","Der"], correct:0, exp:"„Wer\u201C ohne Bezugswort."},
+    {type:"gap", q:"Sie kam zu spät, ___ den Chef geärgert hat.", opts:["was","das","wo","wer"], correct:0, exp:"„was\u201C bezieht sich auf den ganzen vorherigen Satz."},
+    {type:"mc", q:"Das Krankenhaus, ___ sie arbeitet, ist groß.", opts:["wo","das","dem","was"], correct:0, exp:"Ort → „wo\u201C (= in dem)."},
+    {type:"mc", q:"Es gibt etwas, ___ ich dir sagen muss.", opts:["was","das","wo","wer"], correct:0, exp:"Nach „etwas\u201C steht „was\u201C."},
+    {type:"pair", q:"Ordne Satz und richtiges Wort zu:", pairs:[
+      {l:"Das ist alles, …",r:"was"},
+      {l:"Das Haus, …",r:"wo"},
+      {l:"… fragt, lernt.",r:"Wer"},
+      {l:"Er lachte, …",r:"was"}], exp:"alles→was, Ort→wo, ohne Bezug→wer, ganzer Satz→was."},
+    {type:"mc", q:"Wähle den korrekten Satz:", opts:["Wer nicht fragt, bleibt dumm.","Was nicht fragt, bleibt dumm.","Wo nicht fragt, bleibt dumm.","Der nicht fragt, bleibt dumm."], correct:0, exp:"„Wer\u201C = derjenige, der."},
+    {type:"gap", q:"Das Restaurant, ___ wir gegessen haben, war gut.", opts:["wo","das","dem","was"], correct:0, exp:"Ort → „wo\u201C."},
+    {type:"mc", q:"Ich verstehe nicht, ___ du meinst. (Frage im Satz)", opts:["was","das","wo","wer"], correct:0, exp:"Hier indirekte Frage: „was du meinst\u201C."},
+    {type:"mc", q:"Gemischt: Der Kollege, ___ ich vertraue, ist ehrlich.", opts:["dem","den","der","wo"], correct:0, exp:"vertrauen + Dativ → „dem\u201C."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Wer fleißig ist hat Erfolg", exp:"„Wer\u201C-Satz: Nebensatz mit Verb am Ende, dann Hauptsatz."},
+    {type:"mc", q:"Gemischt: Die Firma, ___ ich mich beworben habe, hat geantwortet.", opts:["bei der","bei dem","wo","über die"], correct:0, exp:"sich bewerben bei + Dativ, feminin → „bei der\u201C."},
+    {type:"gap", q:"Das ist der Park, ___ ich jeden Morgen jogge.", opts:["wo","den","dem","was"], correct:0, exp:"Ort → „wo\u201C (= in dem)."},
+    {type:"mc", q:"Gemischt: Das Auto, ___ Motor kaputt ist, steht in der Werkstatt.", opts:["dessen","das","dem","wo"], correct:0, exp:"sein Motor (Genitiv, neutrum) → „dessen\u201C."},
+    {type:"pair", q:"Ordne die Relativsätze ihrem Typ zu:", pairs:[
+      {l:"die Stadt, wo …",r:"Ort"},
+      {l:"der Mann, dessen …",r:"Genitiv"},
+      {l:"alles, was …",r:"nach alles"},
+      {l:"wer …, der …",r:"ohne Bezugswort"}], exp:"Verschiedene Relativsatz-Typen."},
+    {type:"mc", q:"Gemischt: Die Gäste, ___ wir geholfen haben, bedankten sich.", opts:["denen","die","der","wo"], correct:0, exp:"helfen + Dativ, Plural → „denen\u201C."},
+    {type:"gap", q:"Gemischt: Der Kollege, ___ ich arbeite, ist im Urlaub.", opts:["mit dem","mit den","wo","über den"], correct:0, exp:"arbeiten mit + Dativ, maskulin → „mit dem\u201C."},
+    {type:"order", q:"Bring die Wörter zu einem Relativsatz in die richtige Reihenfolge:", items:["Das ist der Mann,","über den","wir gestern","gesprochen haben."], exp:"Bezug + Komma → Präposition+Pronomen → Mittelfeld → Verb am Ende."},
+    {type:"mc", q:"Gemischt: Das ist alles, ___ ich für dich tun kann.", opts:["was","das","wo","wer"], correct:0, exp:"Nach „alles\u201C steht „was\u201C."}
+  ]
+};
+
+const MODULES = [MODUL_1, MODUL_2, MODUL_3];
+let STATIONS = [{ title: MODULES[0].title, tasks: MODULES[0].tasks }];
+
+/* ============ STATE ============ */
+const STORAGE_KEY = "ldma_relativsaetze_v1";
+let curMod = 0, queue = [], curTask = null, answered = false, selPair = {l:null,r:null}, pairsDone = 0, orderChosen = [], scrambleBuilt = [];
+
+function loadState(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}}catch(_){return{}} }
+function saveState(s){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(_){}}
+function isUnlocked(idx){ if(idx===0)return true; const s=loadState(); return !!(s.unlocked&&s.unlocked[idx]); }
+function unlock(idx){ const s=loadState(); s.unlocked=s.unlocked||{}; s.unlocked[idx]=true; saveState(s); }
+
+/* ============ HOME ============ */
+function renderHome(){
+  const g=document.getElementById("modgrid"); g.innerHTML="";
+  MODULES.forEach((m,i)=>{
+    const unlocked=isUnlocked(i);
+    const card=document.createElement("div");
+    card.className="modcard"+(unlocked?"":" locked");
+    let tags=m.topics.map(t=>`<span class="badge">${t}</span>`).join("");
+    let inner=`<h3>${m.title}</h3><div class="sub">${m.subtitle}</div><div>${tags}</div>
+      <div class="stat">30 Aufgaben · ~15 Minuten</div>`;
+    if(unlocked){
+      inner+=`<div style="margin-top:14px"><button class="btn" onclick="startModule(${i})">Modul starten</button></div>`;
+    }else{
+      inner+=`<div class="lock-ico">🔒</div>
+      <div class="lockrow">
+        <input type="text" id="pw${i}" placeholder="Passwort eingeben" autocapitalize="characters">
+        <button class="btn" onclick="tryUnlock(${i})">OK</button>
+      </div>
+      <div class="stat" id="pwmsg${i}"></div>`;
+    }
+    card.innerHTML=inner; g.appendChild(card);
+  });
+}
+function tryUnlock(i){
+  const val=(document.getElementById("pw"+i).value||"").trim().toUpperCase();
+  if(val===MODULES[i].passwordToUnlock){ unlock(i); renderHome(); }
+  else{ document.getElementById("pwmsg"+i).textContent="❌ Passwort stimmt nicht."; }
+}
+function goHome(){ document.getElementById("play").style.display="none";
+  document.getElementById("home").style.display="block"; renderHome();
+  window.scrollTo(0,0); }
+
+/* ============ PLAY ============ */
+function startModule(i){
+  curMod=i;
+  STATIONS=[{title:MODULES[i].title,tasks:MODULES[i].tasks}];
+  queue=STATIONS[0].tasks.map((t,idx)=>idx);
+  document.getElementById("home").style.display="none";
+  document.getElementById("play").style.display="block";
+  window.scrollTo(0,0);
+  nextTask();
+}
+function nextTask(){
+  answered=false; selPair={l:null,r:null}; pairsDone=0; orderChosen=[]; scrambleBuilt=[];
+  if(queue.length===0){ return showModuleEnd(); }
+  const total=STATIONS[0].tasks.length;
+  const done=total-queue.length;
+  document.getElementById("bar").style.width=(done/total*100)+"%";
+  document.getElementById("playprog").textContent=`Noch ${queue.length} Aufgabe${queue.length===1?"":"n"}`;
+  curTask=STATIONS[0].tasks[queue[0]];
+  renderTask(curTask);
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function renderTask(t){
+  const host=document.getElementById("qhost");
+  let html=`<div class="qcard"><div class="qtype">${typeLabel(t.type)}</div>`;
+  if(t.type==="mc"||t.type==="gap"){
+    html+=`<div class="qtext">${t.q}</div><div class="opts" id="opts">`;
+    const order=shuffle(t.opts.map((o,idx)=>({o,idx})));
+    order.forEach((item)=>{ html+=`<button class="opt" data-orig="${item.idx}" onclick="pickOpt(this,${item.idx})">${item.o}</button>`; });
+    html+=`</div>`;
+  }
+  if(t.type==="pair"){
+    html+=`<div class="qtext">${t.q}</div><div class="pairwrap">`;
+    const left=t.pairs.map((p,idx)=>({txt:p.l,idx}));
+    const right=shuffle(t.pairs.map((p,idx)=>({txt:p.r,idx})));
+    html+=`<div class="paircol" id="lcol">`;
+    left.forEach(x=>html+=`<div class="pairitem" data-side="l" data-idx="${x.idx}" onclick="pickPair('l',${x.idx},this)">${x.txt}</div>`);
+    html+=`</div><div class="paircol" id="rcol">`;
+    right.forEach(x=>html+=`<div class="pairitem" data-side="r" data-idx="${x.idx}" onclick="pickPair('r',${x.idx},this)">${x.txt}</div>`);
+    html+=`</div></div>`;
+  }
+  if(t.type==="scramble"){
+    html+=`<div class="qtext">${t.q}</div>
+      <div class="tokens" id="built"></div>
+      <div class="bank" id="bank"></div>`;
+  }
+  if(t.type==="order"){
+    html+=`<div class="qtext">${t.q}</div><div class="orderlist" id="orderlist"></div>`;
+  }
+  html+=`<div class="feedback" id="fb"></div>
+    <div class="actions" id="acts"></div></div>`;
+  host.innerHTML=html;
+
+  if(t.type==="scramble"){
+    const words=t.answer.split(" ");
+    const bank=document.getElementById("bank");
+    shuffle(words.map((w,i)=>({w,i}))).forEach(x=>{
+      const b=document.createElement("button");
+      b.className="token"; b.textContent=x.w;
+      b.onclick=()=>addToken(b,x.w);
+      bank.appendChild(b);
+    });
+    setActs([{label:"Zurücksetzen",cls:"ghost",fn:resetScramble},{label:"Prüfen",cls:"",fn:checkScramble}]);
+  }
+  if(t.type==="order"){
+    const list=document.getElementById("orderlist");
+    shuffle(t.items.map((it,i)=>({it,i}))).forEach(x=>{
+      const d=document.createElement("div");
+      d.className="orderitem"; d.dataset.orig=x.i;
+      d.innerHTML=`<span class="num"></span><span>${x.it}</span>`;
+      d.onclick=()=>pickOrder(d);
+      list.appendChild(d);
+    });
+    setActs([{label:"Zurücksetzen",cls:"ghost",fn:resetOrder},{label:"Prüfen",cls:"",fn:checkOrder}]);
+  }
+}
+function typeLabel(t){return{mc:"Multiple Choice",gap:"Lückentext",pair:"Zuordnen",scramble:"Wortsalat",order:"Reihenfolge"}[t]||t;}
+
+function setActs(arr){
+  const a=document.getElementById("acts"); a.innerHTML="";
+  arr.forEach(x=>{ const b=document.createElement("button"); b.className="btn "+x.cls; b.textContent=x.label; b.onclick=x.fn; a.appendChild(b); });
+}
+
+/* MC / GAP */
+function pickOpt(el,orig){
+  if(answered)return; answered=true;
+  const correct=curTask.correct;
+  document.querySelectorAll("#opts .opt").forEach(b=>{
+    const o=parseInt(b.dataset.orig);
+    if(o===correct)b.classList.add("ok");
+    if(b===el&&o!==correct)b.classList.add("bad");
+    b.style.pointerEvents="none";
+  });
+  finishTask(orig===correct);
+}
+
+/* PAIR */
+function pickPair(side,idx,el){
+  if(el.classList.contains("ok"))return;
+  document.querySelectorAll(`.pairitem[data-side="${side}"]`).forEach(x=>{if(!x.classList.contains("ok"))x.classList.remove("sel");});
+  selPair[side]=idx; el.classList.add("sel");
+  if(selPair.l!==null&&selPair.r!==null){
+    const ok=selPair.l===selPair.r;
+    const lEl=document.querySelector(`.pairitem[data-side="l"][data-idx="${selPair.l}"]`);
+    const rEl=document.querySelector(`.pairitem[data-side="r"][data-idx="${selPair.r}"]`);
+    if(ok){
+      lEl.classList.remove("sel");rEl.classList.remove("sel");
+      lEl.classList.add("ok");rEl.classList.add("ok");
+      lEl.style.pointerEvents="none";rEl.style.pointerEvents="none";
+      pairsDone++;
+      if(pairsDone===curTask.pairs.length){ finishTask(true); }
+    }else{
+      lEl.classList.add("bad");rEl.classList.add("bad");
+      setTimeout(()=>{lEl.classList.remove("bad","sel");rEl.classList.remove("bad","sel");},600);
+    }
+    selPair={l:null,r:null};
+  }
+}
+
+/* SCRAMBLE */
+function addToken(btn,word){
+  if(answered)return;
+  btn.classList.add("placed"); btn.style.display="none";
+  scrambleBuilt.push({word,btn});
+  renderBuilt();
+}
+function renderBuilt(){
+  const b=document.getElementById("built"); b.innerHTML="";
+  scrambleBuilt.forEach((x,i)=>{
+    const t=document.createElement("button");
+    t.className="token"; t.textContent=x.word;
+    t.onclick=()=>{ if(answered)return; x.btn.style.display=""; x.btn.classList.remove("placed"); scrambleBuilt.splice(i,1); renderBuilt(); };
+    b.appendChild(t);
+  });
+}
+function resetScramble(){ if(answered)return; scrambleBuilt.forEach(x=>{x.btn.style.display="";x.btn.classList.remove("placed");}); scrambleBuilt=[]; renderBuilt(); }
+function checkScramble(){
+  if(answered)return;
+  const built=scrambleBuilt.map(x=>x.word).join(" ");
+  const ok=built.trim()===curTask.answer.trim();
+  answered=true;
+  document.querySelectorAll("#bank .token").forEach(b=>b.style.pointerEvents="none");
+  finishTask(ok, ok?null:`Richtig wäre: „${curTask.answer}\u201C`);
+}
+
+/* ORDER */
+function pickOrder(el){
+  if(answered)return;
+  if(el.classList.contains("chosen")){
+    const orig=parseInt(el.dataset.orig);
+    orderChosen=orderChosen.filter(o=>o!==orig);
+    el.classList.remove("chosen");
+  }else{
+    orderChosen.push(parseInt(el.dataset.orig));
+    el.classList.add("chosen");
+  }
+  renumberOrder();
+}
+function renumberOrder(){
+  document.querySelectorAll("#orderlist .orderitem").forEach(el=>{
+    const orig=parseInt(el.dataset.orig);
+    const pos=orderChosen.indexOf(orig);
+    el.querySelector(".num").textContent= pos>=0 ? (pos+1) : "";
+  });
+}
+function resetOrder(){ if(answered)return; orderChosen=[]; document.querySelectorAll("#orderlist .orderitem").forEach(el=>el.classList.remove("chosen")); renumberOrder(); }
+function checkOrder(){
+  if(answered)return;
+  if(orderChosen.length!==curTask.items.length){
+    const fb=document.getElementById("fb"); fb.className="feedback show wrong";
+    fb.textContent="Bitte ordne zuerst alle Teile."; return;
+  }
+  const ok=orderChosen.every((v,i)=>v===i);
+  answered=true;
+  document.querySelectorAll("#orderlist .orderitem").forEach(el=>el.style.pointerEvents="none");
+  finishTask(ok, ok?null:"Die Reihenfolge stimmt noch nicht ganz.");
+}
+
+/* FINISH ONE TASK */
+function finishTask(ok, extraMsg){
+  const fb=document.getElementById("fb");
+  if(fb){
+    fb.className="feedback show "+(ok?"good":"wrong");
+    fb.innerHTML=(ok?"✅ Richtig! ":"❌ Leider nicht. ")+(curTask.exp||"")+(extraMsg?("<br>"+extraMsg):"");
+  }
+  const idx=queue.shift();
+  if(!ok){ queue.push(idx); }
+  const acts=document.getElementById("acts");
+  acts.innerHTML=""; const b=document.createElement("button"); b.className="btn"; b.style.flex="1";
+  b.textContent="Weiter →"; b.onclick=nextTask; acts.appendChild(b);
+}
+
+/* MODULE END */
+function showModuleEnd(){
+  const m=MODULES[curMod];
+  const host=document.getElementById("qhost");
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("playprog").textContent="Geschafft!";
+  const savedName=loadState().name||"";
+  if(curMod<MODULES.length-1){
+    unlock(curMod+1);
+    host.innerHTML=`<div class="endcard">
+      <h2>🎉 Modul ${m.id} geschafft!</h2>
+      <p>Super gemacht! Hier ist dein Passwort für das nächste Modul:</p>
+      <button class="pwbox" onclick="copyPw('${m.passwordReward}')">
+        <small>Passwort (zum Kopieren tippen)</small>${m.passwordReward}</button>
+      <p style="font-size:.85rem;color:var(--muted)">Notiere es dir \u2013 du brauchst es, um Modul ${m.id+1} freizuschalten.</p>
+      <p style="margin-top:18px;font-weight:600;color:var(--accent-deep)">Hol dir dein Modul-Zertifikat:</p>
+      <div class="namerow">
+        <input type="text" id="certname" placeholder="Dein Name" value="${escapeHtml(savedName)}">
+        <button class="btn" onclick="makeCert(${curMod})">Zertifikat</button>
+      </div>
+      <div id="certhost"></div>
+      <div class="actions"><button class="btn ghost" onclick="goHome()">Zur Übersicht</button></div>
+    </div>`;
+  }else{
+    if(window.goatcounter&&window.goatcounter.count){
+      try{window.goatcounter.count({path:"relativsaetze-lernpfad-completed",title:"Relativsätze abgeschlossen",event:true});}catch(_){}
+    }
+    host.innerHTML=`<div class="endcard">
+      <h2>🏆 Relativsätze gemeistert!</h2>
+      <p>Du hast alle 3 Module geschafft. Erstelle dir dein Abschluss-Zertifikat:</p>
+      <div class="namerow">
+        <input type="text" id="certname" placeholder="Dein Name" value="${escapeHtml(savedName)}">
+        <button class="btn" onclick="makeCert(${curMod})">Zertifikat</button>
+      </div>
+      <div id="certhost"></div>
+      <div class="actions"><button class="btn ghost" onclick="goHome()">Zur Übersicht</button></div>
+    </div>`;
+  }
+  window.scrollTo(0,0);
+}
+function escapeHtml(s){return String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));}
+function copyPw(pw){ try{navigator.clipboard.writeText(pw);}catch(_){ } }
+
+/* CERTIFICATE */
+function makeCert(modIdx){
+  const name=(document.getElementById("certname").value||"Teilnehmer/in").trim();
+  const s=loadState(); s.name=name; saveState(s);
+  const date=new Date().toLocaleDateString("de-DE");
+  const isFinal=(modIdx===MODULES.length-1);
+  const m=MODULES[modIdx];
+  const titleLine=isFinal ? "Relativsätze — Zusatzlektion" : m.title.replace("—","–");
+  const subLine=isFinal ? "Aspekte Beruf B2 · 90 Aufgaben · 3 Module" : "Relativsätze · 30 Aufgaben";
+  const head=isFinal ? "Zertifikat" : "Modul-Zertifikat";
+  const fname=isFinal ? "zertifikat-relativsaetze.svg" : `zertifikat-relativsaetze-modul${m.id}.svg`;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="440" viewBox="0 0 640 440">
+    <rect width="640" height="440" fill="#fff" stroke="#7a4d8c" stroke-width="10"/>
+    <rect x="22" y="22" width="596" height="396" fill="none" stroke="#ecdef0" stroke-width="3"/>
+    <text x="320" y="90" text-anchor="middle" font-family="Georgia,serif" font-size="30" fill="#5a3567" font-weight="bold">${head}</text>
+    <text x="320" y="140" text-anchor="middle" font-family="Arial" font-size="15" fill="#5d6b78">Lern Deutsch mit Arash</text>
+    <text x="320" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#1f2730">${escapeXml(name)}</text>
+    <text x="320" y="245" text-anchor="middle" font-family="Arial" font-size="15" fill="#5d6b78">${isFinal?"hat die Zusatzlektion erfolgreich abgeschlossen:":"hat dieses Modul erfolgreich abgeschlossen:"}</text>
+    <text x="320" y="290" text-anchor="middle" font-family="Georgia,serif" font-size="21" fill="#7a4d8c" font-weight="bold">${escapeXml(titleLine)}</text>
+    <text x="320" y="320" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6b78">${escapeXml(subLine)}</text>
+    <text x="320" y="380" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6b78">${date}</text>
+    <text x="320" y="405" text-anchor="middle" font-family="Arial" font-size="12" fill="#7a4d8c">Arash Guitoo</text>
+  </svg>`;
+  const blob=new Blob([svg],{type:"image/svg+xml"});
+  const url=URL.createObjectURL(blob);
+  document.getElementById("certhost").innerHTML=
+    `<div style="margin:14px 0">${svg}</div>
+     <a class="btn" href="${url}" download="${fname}" style="display:inline-block;text-decoration:none">Zertifikat herunterladen</a>`;
+}
+function escapeXml(s){return s.replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));}
+
+/* INIT */
+renderHome();
+</script>
+</body>
+</html>

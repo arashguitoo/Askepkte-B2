@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lektion 2 — Mein Weg in den Beruf · Lern Deutsch mit Arash</title>
+<style>
+:root{
+  --accent:#2d6a6a; --accent-deep:#1d4747; --paper-warm:#d8eaea;
+  --ink:#1f2730; --muted:#5d6b78; --bg:#f2f7f7; --card:#ffffff;
+  --ok:#2e8b57; --bad:#c0392b; --line:#d7e4e4;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;padding:0 0 60px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header{background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  color:#fff;padding:26px 16px;text-align:center}
+header h1{font-size:1.45rem;margin-bottom:4px}
+header p{opacity:.92;font-size:.92rem}
+.backbtn{display:inline-flex;align-items:center;gap:6px;background:var(--paper-warm);
+  color:var(--accent-deep);text-decoration:none;font-weight:600;border:1px solid var(--line);
+  padding:8px 14px;border-radius:10px;font-size:.85rem;cursor:pointer;margin-top:14px}
+.backbtn:active{transform:translateY(1px)}
+
+/* ===== Grammatik-Teil ===== */
+.gram{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px;margin-top:18px;box-shadow:0 2px 10px rgba(29,71,71,.07)}
+.gram h2{color:var(--accent-deep);font-size:1.2rem;margin-bottom:10px}
+.gram h3{color:var(--accent);font-size:1.02rem;margin:18px 0 8px}
+.gram p{margin-bottom:10px;font-size:.95rem}
+.gram .ex{font-family:Georgia,serif;font-style:italic;background:var(--paper-warm);
+  border-radius:9px;padding:9px 12px;margin:8px 0;font-size:.95rem}
+.gram .ex b{color:var(--accent-deep);font-style:normal}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.toc a{font-size:.82rem;background:var(--paper-warm);color:var(--accent-deep);
+  text-decoration:none;padding:6px 11px;border-radius:18px;font-weight:600}
+table.gt{border-collapse:collapse;width:100%;margin:10px 0;font-size:.88rem}
+table.gt th,table.gt td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+table.gt th{background:var(--paper-warm);color:var(--accent-deep)}
+table.gt td.row{background:var(--paper-warm);color:var(--accent-deep);font-weight:600}
+.rule{border-left:4px solid var(--accent);background:#eef6f6;border-radius:0 9px 9px 0;
+  padding:10px 14px;margin:10px 0;font-size:.92rem}
+
+/* ===== Module / Übungen ===== */
+.section-title{font-size:1.1rem;color:var(--accent-deep);margin:26px 0 12px;font-weight:700}
+.modgrid{display:grid;gap:14px}
+.modcard{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px;box-shadow:0 2px 10px rgba(29,71,71,.06);position:relative}
+.modcard h3{font-size:1.08rem;color:var(--accent-deep);margin-bottom:4px}
+.modcard .sub{color:var(--muted);font-size:.88rem;margin-bottom:10px}
+.modcard.locked{opacity:.6}
+.lockrow{display:flex;gap:8px;align-items:center;margin-top:8px}
+.lockrow input{flex:1;padding:10px;border:1px solid var(--line);border-radius:10px;font-size:.9rem}
+.btn{background:var(--accent);color:#fff;border:none;border-radius:10px;
+  padding:11px 18px;font-size:.95rem;font-weight:600;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.badge{display:inline-block;background:var(--paper-warm);color:var(--accent-deep);
+  font-size:.72rem;padding:3px 9px;border-radius:20px;margin:2px 3px 0 0;font-weight:600}
+.stat{font-size:.8rem;color:var(--muted);margin-top:10px}
+.lock-ico{position:absolute;top:16px;right:16px;font-size:1.1rem}
+
+#play{display:none}
+.progress{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin:16px 0}
+.progress>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:20px;box-shadow:0 2px 10px rgba(29,71,71,.06)}
+.qtype{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);
+  font-weight:700;margin-bottom:8px}
+.qtext{font-size:1.05rem;margin-bottom:16px;font-weight:500}
+.reading{background:var(--paper-warm);border-radius:12px;padding:14px;margin-bottom:14px;
+  font-size:.95rem;line-height:1.6;white-space:pre-line}
+.opts{display:grid;gap:9px}
+.opt{padding:13px 14px;border:1.5px solid var(--line);border-radius:11px;cursor:pointer;
+  background:#fff;font-size:.95rem;transition:.15s;text-align:left}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:var(--paper-warm)}
+.opt.ok{border-color:var(--ok);background:#e8f6ee}
+.opt.bad{border-color:var(--bad);background:#fbeae8}
+.pairwrap{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.paircol{display:grid;gap:8px}
+.pairitem{padding:12px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;
+  background:#fff;font-size:.92rem;text-align:center;transition:.15s}
+.pairitem.sel{border-color:var(--accent);background:var(--paper-warm)}
+.pairitem.ok{border-color:var(--ok);background:#e8f6ee;cursor:default}
+.pairitem.bad{border-color:var(--bad);background:#fbeae8}
+.tokens{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;min-height:48px;
+  padding:12px;border:1.5px dashed var(--line);border-radius:11px}
+.bank{display:flex;flex-wrap:wrap;gap:8px}
+.token{padding:9px 13px;border:1.5px solid var(--accent);border-radius:9px;
+  background:var(--paper-warm);color:var(--accent-deep);cursor:pointer;font-size:.92rem;font-weight:500}
+.token.placed{background:#fff;border-color:var(--line);color:var(--ink)}
+.orderlist{display:grid;gap:8px;margin-bottom:14px}
+.orderitem{padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;
+  cursor:pointer;font-size:.92rem;display:flex;align-items:center;gap:10px}
+.orderitem .num{min-width:26px;height:26px;border-radius:50%;background:var(--paper-warm);
+  color:var(--accent-deep);display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:700}
+.orderitem.chosen{border-color:var(--accent);background:var(--paper-warm)}
+.feedback{margin-top:14px;padding:13px;border-radius:11px;font-size:.9rem;display:none}
+.feedback.show{display:block}
+.feedback.good{background:#e8f6ee;color:#1d6b41}
+.feedback.wrong{background:#fbeae8;color:#922}
+.actions{display:flex;gap:10px;margin-top:16px}
+.actions .btn{flex:1}
+.endcard{background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:28px 20px;text-align:center;box-shadow:0 4px 18px rgba(29,71,71,.1)}
+.endcard h2{color:var(--accent-deep);margin-bottom:10px}
+.pwbox{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;
+  border:none;border-radius:14px;padding:22px;font-size:1.5rem;font-weight:800;
+  letter-spacing:1px;cursor:pointer;width:100%;margin:18px 0;font-family:monospace}
+.pwbox small{display:block;font-size:.72rem;font-weight:400;letter-spacing:0;
+  opacity:.85;margin-bottom:6px;font-family:-apple-system,sans-serif}
+.namerow{display:flex;gap:8px;margin:14px 0}
+.namerow input{flex:1;padding:11px;border:1px solid var(--line);border-radius:10px}
+footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:40px;padding:0 16px}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-size:.85rem}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>Lektion 2 — Mein Weg in den Beruf</h1>
+  <p>Aspekte Beruf B2 · Grammatik &amp; 4 Module · 120 Aufgaben</p>
+</header>
+
+<div class="wrap">
+  <!-- HOME -->
+  <div id="home">
+    <a class="backbtn" href="index.html">&larr; Zurück zur Startseite</a>
+
+    <!-- ===== GRAMMATIK ===== -->
+    <div class="gram" id="gram">
+      <h2>Grammatik kompakt</h2>
+      <p>In dieser Lektion stehen zwei Satzverbindungen im Mittelpunkt: <b>zweiteilige Konnektoren</b> und <b>Konnektoren mit <i>zu</i> + Infinitiv</b> (<i>um zu, ohne zu, (an)statt zu</i>).</p>
+      <div class="toc">
+        <a href="#g1">1 · Zweiteilige Konnektoren</a>
+        <a href="#g2">2 · um / ohne / (an)statt zu</a>
+        <a href="#g3">3 · gleiches Subjekt?</a>
+      </div>
+
+      <h3 id="g1">1 · Zweiteilige Konnektoren</h3>
+      <p>Sie bestehen aus zwei Teilen und verbinden Satzteile oder Sätze. Jeder Konnektor hat eine eigene Bedeutung:</p>
+      <table class="gt">
+        <tr><th>Konnektor</th><th>Bedeutung</th></tr>
+        <tr><td><i>sowohl … als auch</i></td><td>Aufzählung (A und B)</td></tr>
+        <tr><td><i>nicht nur …, sondern auch</i></td><td>Aufzählung mit Steigerung</td></tr>
+        <tr><td><i>weder … noch</i></td><td>„negative" Aufzählung (nicht A und nicht B)</td></tr>
+        <tr><td><i>entweder … oder</i></td><td>Alternative (A oder B)</td></tr>
+        <tr><td><i>zwar …, aber</i></td><td>Einschränkung / Gegensatz</td></tr>
+        <tr><td><i>je …, desto/umso</i></td><td>Vergleich (zwei Dinge ändern sich zusammen)</td></tr>
+      </table>
+      <div class="ex">Ich habe <b>sowohl</b> über Jobportale <b>als auch</b> über Anzeigen gesucht.</div>
+      <div class="ex">Die Arbeit ist <b>zwar</b> anstrengend, <b>aber</b> sie macht Spaß.</div>
+      <div class="ex"><b>Je</b> mehr Absagen ich bekam, <b>desto</b> frustrierter wurde ich.</div>
+      <div class="rule">Bei <i>je …, desto</i>: Im <i>je</i>-Teil steht das Verb am Ende, im <i>desto</i>-Teil direkt nach <i>desto + Adjektiv</i>.<br><i>Je länger man sucht, desto schwieriger wird es.</i></div>
+
+      <h3 id="g2">2 · Konnektoren mit <i>zu</i> + Infinitiv</h3>
+      <table class="gt">
+        <tr><th>Konnektor</th><th>Bedeutung</th></tr>
+        <tr><td><i>um … zu</i></td><td>Ziel / Absicht (= damit)</td></tr>
+        <tr><td><i>ohne … zu</i></td><td>etwas passiert nicht / fehlt (Einschränkung)</td></tr>
+        <tr><td><i>(an)statt … zu</i></td><td>Alternative / Gegensatz (etwas anderes statt)</td></tr>
+      </table>
+      <div class="ex">Ich gehe zur Messe, <b>um</b> mich <b>zu</b> informieren. (Ziel)</div>
+      <div class="ex">Er ging zur Messe, <b>ohne</b> ein Ticket <b>zu</b> kaufen. (etwas fehlt)</div>
+      <div class="ex"><b>Anstatt</b> nur im Internet <b>zu</b> recherchieren, frage ich einen Berater. (Alternative)</div>
+
+      <h3 id="g3">3 · Gleiches Subjekt? Das ist der Trick</h3>
+      <p>Ob du <i>um zu</i> oder <i>damit</i> nimmst, hängt vom Subjekt ab:</p>
+      <table class="gt">
+        <tr><th>Subjekt im Haupt- = Nebensatz</th><th>Subjekte verschieden</th></tr>
+        <tr><td><i>um … zu</i> / <i>ohne … zu</i> / <i>anstatt … zu</i></td><td><i>damit</i> / <i>ohne dass</i> / <i>anstatt dass</i></td></tr>
+      </table>
+      <div class="ex">Ich lerne, <b>um</b> die Prüfung <b>zu</b> bestehen. (ich – ich)</div>
+      <div class="ex">Die Firma bietet Stellen an, <b>damit</b> junge Leute sich bewerben. (Firma – Leute)</div>
+      <div class="rule">Die Modalverben <i>wollen</i> und <i>sollen</i> stehen nie in Sätzen mit <i>um zu</i> oder <i>damit</i>.</div>
+    </div>
+
+    <div class="section-title">Übungsmodule</div>
+    <div class="modgrid" id="modgrid"></div>
+    <footer>Lern Deutsch mit Arash · Lektion 2 · Mein Weg in den Beruf</footer>
+  </div>
+
+  <!-- PLAY -->
+  <div id="play">
+    <div class="topbar">
+      <a class="backbtn" href="#" onclick="goHome();return false">&larr; Zurück zur Übersicht</a>
+      <span id="playprog">Aufgabe 1</span>
+    </div>
+    <div class="progress"><i id="bar"></i></div>
+    <div id="qhost"></div>
+  </div>
+</div>
+
+<script data-goatcounter="https://aguitoo.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+<script>
+/* ============ AUFGABEN-DATEN ============ */
+const MODUL_1 = {
+  id:1, title:"Modul 1 — Auf Jobsuche",
+  subtitle:"Stellensuche · zweiteilige Konnektoren",
+  topics:["zweiteilige Konnektoren","Jobsuche","Bewerbung","Wortschatz"],
+  passwordToUnlock:null, passwordReward:"M2-LEBENSLAUF-2026",
+  tasks:[
+    {type:"reading", text:"Umfrage: Wie haben Sie Ihre Stelle gefunden?\n\nIdris (Bäcker): Ich habe direkt in der Bäckerei nachgefragt und einen Tag zur Probe gearbeitet. Danach durfte ich bleiben.\n\nCarmen (Grafikerin): Ich habe sowohl über Jobportale als auch über mein eigenes Netzwerk gesucht. Am Ende hat mich eine alte Kollegin empfohlen."},
+    {type:"mc", followsReading:true, q:"Wie hat Idris seine Stelle gefunden?", opts:["Über ein Jobportal","Durch direktes Nachfragen und Probearbeit","Über eine Zeitungsanzeige","Durch eine Empfehlung"], correct:1, exp:"Er hat direkt nachgefragt und zur Probe gearbeitet."},
+    {type:"mc", followsReading:true, q:"Wo hat Carmen überall gesucht?", opts:["Nur über Jobportale","Nur über ihr Netzwerk","Sowohl über Jobportale als auch über ihr Netzwerk","Über die Zeitung"], correct:2, exp:"„sowohl … als auch\u201C \u2013 beide Wege."},
+    {type:"mc", followsReading:true, q:"Wer hat Carmen schließlich geholfen?", opts:["Eine alte Kollegin","Ihr Chef","Ein Jobportal","Die Agentur"], correct:0, exp:"Eine alte Kollegin hat sie empfohlen."},
+    {type:"gap", q:"Ich habe ___ über Jobportale ___ über Anzeigen gesucht.", opts:["sowohl … als auch","weder … noch","entweder … oder","zwar … aber"], correct:0, exp:"Aufzählung beider Wege → „sowohl … als auch\u201C."},
+    {type:"mc", q:"Welcher Konnektor drückt eine „negative Aufzählung\u201C aus?", opts:["sowohl … als auch","weder … noch","entweder … oder","nicht nur … sondern auch"], correct:1, exp:"„weder … noch\u201C = nicht A und nicht B."},
+    {type:"gap", q:"Die Arbeit ist ___ anstrengend, ___ sie macht mir Spaß.", opts:["zwar … aber","sowohl … als auch","weder … noch","je … desto"], correct:0, exp:"Einschränkung/Gegensatz → „zwar … aber\u201C."},
+    {type:"mc", q:"„Je mehr Erfahrung man hat, ___ leichter findet man eine Stelle.\u201C", opts:["desto","als","sondern","noch"], correct:0, exp:"„je …, desto …\u201C \u2013 zwei Dinge ändern sich zusammen."},
+    {type:"pair", q:"Ordne Konnektor und Bedeutung zu:", pairs:[
+      {l:"sowohl … als auch",r:"Aufzählung"},
+      {l:"weder … noch",r:"negative Aufzählung"},
+      {l:"entweder … oder",r:"Alternative"},
+      {l:"zwar … aber",r:"Gegensatz"}], exp:"Bedeutungen der zweiteiligen Konnektoren."},
+    {type:"gap", q:"Du kannst ___ heute ___ morgen anfangen \u2013 du entscheidest.", opts:["entweder … oder","weder … noch","sowohl … als auch","je … desto"], correct:0, exp:"Alternative → „entweder … oder\u201C."},
+    {type:"mc", q:"„Ich spreche weder Spanisch ___ Italienisch.\u201C", opts:["noch","oder","als","aber"], correct:0, exp:"„weder … noch\u201C."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Ich habe sowohl im Büro als auch im Lager gearbeitet", exp:"„sowohl … als auch\u201C verbindet zwei Satzteile."},
+    {type:"mc", q:"Welcher Satz ist korrekt?", opts:["Ich suche sowohl über Portale sondern auch privat.","Ich suche sowohl über Portale als auch privat.","Ich suche weder über Portale als auch privat.","Ich suche zwar über Portale noch privat."], correct:1, exp:"Richtiges Paar: „sowohl … als auch\u201C."},
+    {type:"gap", q:"Sie ist ___ qualifiziert ___ motiviert \u2013 die perfekte Bewerberin.", opts:["sowohl … als auch","weder … noch","zwar … aber","je … desto"], correct:0, exp:"Positive Aufzählung → „sowohl … als auch\u201C."},
+    {type:"mc", q:"„Die Stelle ist nicht nur gut bezahlt, ___ auch interessant.\u201C", opts:["sondern","als","oder","noch"], correct:0, exp:"„nicht nur …, sondern auch\u201C."},
+    {type:"pair", q:"Ordne Satzanfang und Fortsetzung zu:", pairs:[
+      {l:"Je länger ich suchte,",r:"desto nervöser wurde ich."},
+      {l:"Ich habe weder eine Antwort",r:"noch eine Absage bekommen."},
+      {l:"Du kannst entweder anrufen",r:"oder eine Mail schreiben."},
+      {l:"Die Stelle ist zwar weit weg,",r:"aber sehr gut bezahlt."}], exp:"Zweiteilige Konnektoren im Satz."},
+    {type:"gap", q:"___ länger das Bewerbungsverfahren dauert, ___ unsicherer fühlt man sich.", opts:["Je … desto","Sowohl … als auch","Weder … noch","Entweder … oder"], correct:0, exp:"Vergleich → „je …, desto …\u201C."},
+    {type:"mc", q:"Was bedeutet „eine Stelle zur Probe\u201C?", opts:["Eine feste Stelle für immer","Man arbeitet kurz, um sich kennenzulernen","Eine unbezahlte Stelle","Eine Stelle im Ausland"], correct:1, exp:"Probearbeit: kurzes Ausprobieren vor der Einstellung."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Die Arbeit ist zwar schwer aber sehr abwechslungsreich", exp:"„zwar …, aber …\u201C drückt einen Gegensatz aus."},
+    {type:"gap", q:"Ich habe die Stelle ___ über das Jobportal ___ über die Zeitung gefunden, sondern durch einen Freund.", opts:["weder … noch","sowohl … als auch","zwar … aber","je … desto"], correct:0, exp:"Beide Wege werden verneint → „weder … noch\u201C."},
+    {type:"mc", q:"„Sowohl … als auch\u201C verbindet meistens …", opts:["ganze Hauptsätze","Satzteile","Fragen","Befehle"], correct:1, exp:"„sowohl … als auch\u201C verbindet meist Satzteile."},
+    {type:"pair", q:"Ordne Beruf und Tätigkeit zu:", pairs:[
+      {l:"Bäcker/in",r:"backt Brot und Brötchen"},
+      {l:"Grafiker/in",r:"gestaltet Bilder und Layouts"},
+      {l:"Pflegefachkraft",r:"betreut kranke Menschen"},
+      {l:"Bauzeichner/in",r:"zeichnet Baupläne"}], exp:"Berufe und ihre typischen Aufgaben."},
+    {type:"gap", q:"Man kann eine Stelle ___ in der Zeitung ___ im Internet finden.", opts:["sowohl … als auch","weder … noch","zwar … aber","je … desto"], correct:0, exp:"Beide Möglichkeiten → „sowohl … als auch\u201C."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Du kannst entweder eine Mail schreiben oder anrufen", exp:"„entweder … oder\u201C verbindet zwei Möglichkeiten."},
+    {type:"gap", q:"Sie ist nicht nur fleißig, ___ auch sehr kreativ.", opts:["sondern","als","noch","oder"], correct:0, exp:"„nicht nur …, sondern auch\u201C."},
+    {type:"mc", q:"Was ist ein „Nebenjob\u201C?", opts:["Der Hauptberuf","Eine zusätzliche, kleinere Arbeit","Eine Arbeit im Ausland","Eine Stelle ohne Bezahlung"], correct:1, exp:"Nebenjob = zusätzliche Beschäftigung neben dem Hauptberuf/Studium."},
+    {type:"order", q:"Bring die Umfrage-Antwort in eine logische Reihenfolge:", items:["Zuerst habe ich online nach Stellen gesucht.","Dann habe ich mich bei mehreren Firmen beworben.","Schließlich hatte ich ein Vorstellungsgespräch.","Am Ende habe ich die Stelle bekommen."], exp:"Suche → Bewerbung → Gespräch → Zusage."},
+    {type:"gap", q:"___ ich mehr Bewerbungen schrieb, ___ mehr Übung bekam ich.", opts:["Je … desto","Sowohl … als auch","Weder … noch","Zwar … aber"], correct:0, exp:"Vergleich → „je …, desto …\u201C."},
+    {type:"mc", q:"Welcher Satz ist korrekt?", opts:["Ich bin weder zufrieden sondern glücklich.","Ich bin zwar zufrieden, aber nicht glücklich.","Ich bin sowohl zufrieden noch glücklich.","Ich bin je zufrieden desto glücklich."], correct:1, exp:"„zwar …, aber …\u201C ist hier die richtige Verbindung."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Je mehr Erfahrung ich habe desto leichter finde ich Arbeit", exp:"„je …, desto …\u201C: Verb im je-Teil am Ende."}
+  ]
+};
+
+const MODUL_2 = {
+  id:2, title:"Modul 2 — Ein Lebenslauf",
+  subtitle:"Lebenslauf analysieren · Abschnitte & Wortschatz",
+  topics:["Lebenslauf","Berufserfahrung","Ausbildung","Struktur"],
+  passwordToUnlock:"M2-LEBENSLAUF-2026", passwordReward:"M3-AUSBILDUNG-2026",
+  tasks:[
+    {type:"reading", text:"Tipps einer Bewerbungstrainerin\n\nEin guter Lebenslauf ist übersichtlich und nicht länger als zwei Seiten. Die Angaben sollten einheitlich sein \u2013 zum Beispiel immer Monat und Jahr. Sprachkenntnisse stehen am Ende, mit Angabe des Niveaus. Bei EDV-Kenntnissen schreibt man, wie gut man ein Programm beherrscht."},
+    {type:"mc", followsReading:true, q:"Wie lang sollte ein Lebenslauf höchstens sein?", opts:["Eine halbe Seite","Zwei Seiten","Fünf Seiten","So lang wie möglich"], correct:1, exp:"Höchstens zwei Seiten."},
+    {type:"mc", followsReading:true, q:"Wo stehen die Sprachkenntnisse?", opts:["Ganz oben","In der Mitte","Am Ende","Auf einer extra Seite"], correct:2, exp:"Sprachkenntnisse stehen am Ende."},
+    {type:"mc", followsReading:true, q:"Was sollte man bei EDV-Kenntnissen angeben?", opts:["Nur den Programmnamen","Wie gut man das Programm beherrscht","Den Preis des Programms","Nichts Genaues"], correct:1, exp:"Man gibt das Niveau / die Sicherheit an."},
+    {type:"pair", q:"Ordne Lebenslauf-Abschnitt und Inhalt zu:", pairs:[
+      {l:"Persönliche Angaben",r:"Geburtsdatum, Nationalität"},
+      {l:"Berufserfahrung",r:"frühere Stellen und Tätigkeiten"},
+      {l:"Ausbildung",r:"Schule, Studium, Abschlüsse"},
+      {l:"Sprachen",r:"Sprachen und Niveau"}], exp:"Typische Abschnitte eines Lebenslaufs."},
+    {type:"gap", q:"Im Lebenslauf gibt man die Stellen meist in ___ Reihenfolge an (neueste zuerst).", opts:["umgekehrter chronologischer","alphabetischer","zufälliger","steigender"], correct:0, exp:"Üblich ist die antichronologische Reihenfolge: neueste Stelle zuerst."},
+    {type:"mc", q:"Was gehört NICHT in den Abschnitt „Berufserfahrung\u201C?", opts:["frühere Arbeitsstellen","Praktika","das eigene Geburtsdatum","Tätigkeiten in der Firma"], correct:2, exp:"Das Geburtsdatum gehört zu „Persönliche Angaben\u201C."},
+    {type:"gap", q:"Die Datumsangaben sollten ___ sein, z. B. immer „03/2020\u201C.", opts:["einheitlich","verschieden","ungenau","versteckt"], correct:0, exp:"Einheitliche Formate machen den Lebenslauf übersichtlich."},
+    {type:"mc", q:"Was bedeutet „Weiterbildung\u201C?", opts:["die erste Schulausbildung","ein zusätzlicher Kurs nach der Ausbildung","ein Urlaub","ein Hobby"], correct:1, exp:"Weiterbildung = zusätzliche Qualifizierung, z. B. ein Kurs."},
+    {type:"order", q:"Bring die Lebenslauf-Abschnitte in die übliche Reihenfolge:", items:["Persönliche Angaben","Berufserfahrung","Ausbildung","Sprachen"], exp:"Übliche Reihenfolge: Persönliches → Beruf → Ausbildung → Sprachen."},
+    {type:"gap", q:"Beim Niveau einer Sprache schreibt man z. B. „Englisch ___ \u2013 verhandlungssicher\u201C.", opts:["C1","Note 1","sehr lang","perfekt"], correct:0, exp:"Sprachniveaus gibt man mit A1–C2 an."},
+    {type:"mc", q:"Welche Angabe gehört zu „Persönliche Angaben\u201C?", opts:["Praktikum bei Firma X","Geburtsdatum","Deutschkurs B2","Word und Excel"], correct:1, exp:"Geburtsdatum = persönliche Angabe."},
+    {type:"pair", q:"Ordne Begriff und Erklärung zu:", pairs:[
+      {l:"Praktikum",r:"befristete praktische Tätigkeit zum Lernen"},
+      {l:"Vollzeit",r:"volle Wochenarbeitszeit"},
+      {l:"Teilzeit",r:"reduzierte Arbeitszeit"},
+      {l:"Aushilfe",r:"Mitarbeit bei Bedarf"}], exp:"Wortschatz rund um Arbeitsverhältnisse."},
+    {type:"gap", q:"Zu Berufserfahrung und Praktika gehört eine kurze ___ der Tätigkeiten.", opts:["Beschreibung","Bewertung","Bezahlung","Bewerbung"], correct:0, exp:"Man beschreibt kurz, was man gemacht hat."},
+    {type:"mc", q:"Welcher Tipp stimmt für ein Bewerbungsfoto?", opts:["Möglichst lustig aussehen","Seriös und freundlich zugleich","Gar kein Foto ist immer besser","Ein Urlaubsfoto nehmen"], correct:1, exp:"Auf dem Foto seriös und freundlich wirken."},
+    {type:"gap", q:"Tipp- und ___ unbedingt vermeiden!", opts:["Rechtschreibfehler","Telefonnummern","Sprachen","Abschlüsse"], correct:0, exp:"Tipp- und Rechtschreibfehler vermeiden."},
+    {type:"mc", q:"Was bedeutet „verhandlungssicher\u201C bei einer Sprache?", opts:["Anfängerniveau","Man kann auf hohem Niveau verhandeln","Man versteht nur einzelne Wörter","Man kann nur lesen"], correct:1, exp:"verhandlungssicher = sehr gutes, sicheres Niveau."},
+    {type:"order", q:"Bring die Strategie „Lebenslauf schreiben\u201C in eine sinnvolle Reihenfolge:", items:["Alle wichtigen Informationen auf Zettel notieren.","Die Zettel nach Themen ordnen.","Vergleichbare Abschlüsse in Deutschland recherchieren.","Den Lebenslauf übersichtlich formulieren."], exp:"Sammeln → ordnen → recherchieren → formulieren."},
+    {type:"gap", q:"Der Lebenslauf ist ein offizielles ___, deshalb ist Sorgfalt wichtig.", opts:["Dokument","Hobby","Gespräch","Foto"], correct:0, exp:"Ein Lebenslauf ist ein offizielles Dokument."},
+    {type:"mc", q:"Welche Reihenfolge ist bei Berufserfahrung üblich?", opts:["älteste Stelle zuerst","neueste Stelle zuerst","alphabetisch","nach Gehalt"], correct:1, exp:"Neueste Stelle zuerst (antichronologisch)."},
+    {type:"pair", q:"Ordne Abkürzung/Begriff und Bedeutung zu:", pairs:[
+      {l:"DTZ",r:"Deutsch-Test für Zuwanderer"},
+      {l:"EDV-Kenntnisse",r:"Computerkenntnisse"},
+      {l:"Muttersprache",r:"erste, von Geburt an gelernte Sprache"},
+      {l:"Abschluss",r:"erfolgreiches Ende einer Ausbildung"}], exp:"Begriffe aus dem Lebenslauf."},
+    {type:"gap", q:"Man sollte nur ___ angeben, die im Zusammenhang mit der Stelle stehen.", opts:["Weiterbildungen","Urlaube","Hobbys ohne Bezug","Lieblingsfilme"], correct:0, exp:"Relevante Weiterbildungen nennen, nicht alles."},
+    {type:"mc", q:"Was ist eine „Aushilfe\u201C?", opts:["eine Führungskraft","jemand, der bei Bedarf mitarbeitet","ein Praktikant im Ausland","ein Abteilungsleiter"], correct:1, exp:"Aushilfe = Mitarbeit bei Bedarf, oft stundenweise."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Im Lebenslauf stehen die Sprachkenntnisse ganz am Ende", exp:"Aussagesatz: Verb auf Position 2."},
+    {type:"gap", q:"Sprachkenntnisse gibt man mit dem ___ an, z. B. B2 oder C1.", opts:["Niveau","Gehalt","Datum","Foto"], correct:0, exp:"Das Sprachniveau (A1–C2) angeben."},
+    {type:"mc", q:"Welche Überschrift passt für frühere Jobs?", opts:["Persönliche Angaben","Berufserfahrung","Sprachen","Hobbys"], correct:1, exp:"Frühere Jobs → „Berufserfahrung\u201C."},
+    {type:"order", q:"Bring eine Stellenangabe im Lebenslauf in die richtige Reihenfolge:", items:["12/2019 – heute","Verkäuferin","Mode und More, München","Beratung und Mitgestaltung der Schaufenster"], exp:"Zeitraum → Position → Firma → Tätigkeiten."},
+    {type:"gap", q:"Hobbys nennt man nur, wenn sie für den Beruf ___ sind.", opts:["relevant","langweilig","teuer","geheim"], correct:0, exp:"Nur relevante Hobbys angeben (z. B. Teamfähigkeit zeigen)."},
+    {type:"mc", q:"Was bedeutet „selbstständige Beratung\u201C?", opts:["Beratung ohne Hilfe, eigenverantwortlich","Beratung nur mit Chef","Beratung am Telefon","Beratung im Ausland"], correct:0, exp:"selbstständig = eigenverantwortlich, ohne ständige Anleitung."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Ein guter Lebenslauf ist übersichtlich und klar gegliedert", exp:"Aussagesatz mit Adjektiven am Ende."}
+  ]
+};
+
+const MODUL_3 = {
+  id:3, title:"Modul 3 — Schule, Betrieb, Uni?",
+  subtitle:"Ausbildungswege · um/ohne/(an)statt zu",
+  topics:["um zu","ohne zu","anstatt zu","Ausbildung"],
+  passwordToUnlock:"M3-AUSBILDUNG-2026", passwordReward:"M4-BEWERBUNG-2026",
+  tasks:[
+    {type:"reading", text:"Wege in den Beruf\n\nEs gibt mehrere Möglichkeiten, einen Beruf zu lernen. Bei der dualen Ausbildung lernt man im Betrieb und in der Berufsschule. Beim dualen Studium kombiniert man Studium und Arbeit. In der schulischen Ausbildung lernt man vor allem an einer Berufsfachschule."},
+    {type:"mc", followsReading:true, q:"Wo lernt man bei der dualen Ausbildung?", opts:["Nur an der Uni","Im Betrieb und in der Berufsschule","Nur zu Hause","Nur im Ausland"], correct:1, exp:"Dual = Betrieb + Berufsschule."},
+    {type:"mc", followsReading:true, q:"Was kombiniert das duale Studium?", opts:["Zwei Studiengänge","Studium und Arbeit","Schule und Urlaub","Zwei Sprachen"], correct:1, exp:"Duales Studium = Studium + Arbeit im Betrieb."},
+    {type:"mc", followsReading:true, q:"Wo lernt man bei der schulischen Ausbildung vor allem?", opts:["An einer Berufsfachschule","Nur im Betrieb","An der Universität","Im Praktikum im Ausland"], correct:0, exp:"Schulische Ausbildung: vor allem an einer Berufsfachschule."},
+    {type:"gap", q:"Ich gehe zur Messe, ___ mich über Berufe ___ informieren.", opts:["um … zu","ohne … zu","anstatt … zu","weder … noch"], correct:0, exp:"Ziel/Absicht → „um … zu\u201C."},
+    {type:"mc", q:"„Er ging zur Messe, ___ ein Ticket ___ kaufen.\u201C (er hatte kein Ticket)", opts:["um … zu","ohne … zu","anstatt … zu","damit"], correct:1, exp:"Etwas fehlt/passiert nicht → „ohne … zu\u201C."},
+    {type:"gap", q:"___ nur im Internet ___ recherchieren, frage ich einen Berater.", opts:["Anstatt … zu","Um … zu","Ohne … zu","Weder … noch"], correct:0, exp:"Alternative/Gegensatz → „anstatt … zu\u201C."},
+    {type:"mc", q:"Welche Bedeutung hat „um … zu\u201C?", opts:["Ziel oder Absicht","etwas fehlt","Alternative","Gegensatz ohne Ziel"], correct:0, exp:"„um … zu\u201C nennt das Ziel."},
+    {type:"pair", q:"Ordne Konnektor und Bedeutung zu:", pairs:[
+      {l:"um … zu",r:"Ziel / Absicht"},
+      {l:"ohne … zu",r:"etwas passiert nicht"},
+      {l:"anstatt … zu",r:"Alternative / Gegensatz"},
+      {l:"damit",r:"Ziel (verschiedene Subjekte)"}], exp:"Konnektoren mit zu + Infinitiv und damit."},
+    {type:"mc", q:"Wann benutzt man „damit\u201C statt „um … zu\u201C?", opts:["wenn das Subjekt gleich ist","wenn die Subjekte verschieden sind","immer","nie"], correct:1, exp:"„damit\u201C bei verschiedenen Subjekten."},
+    {type:"gap", q:"Die Firma bietet Praktika an, ___ junge Leute Erfahrung sammeln.", opts:["damit","um zu","ohne dass","anstatt zu"], correct:0, exp:"Verschiedene Subjekte (Firma – Leute) → „damit\u201C."},
+    {type:"mc", q:"Welcher Satz ist korrekt?", opts:["Ich lerne, um die Prüfung zu bestehen.","Ich lerne, um die Prüfung bestehen.","Ich lerne, um zu die Prüfung bestehen.","Ich lerne, damit ich die Prüfung zu bestehen."], correct:0, exp:"„um\u201C + … + „zu\u201C + Infinitiv am Ende."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Ich besuche die Messe um neue Kontakte zu knüpfen", exp:"„um … zu\u201C: zu + Infinitiv am Satzende."},
+    {type:"gap", q:"Er hat sich beworben, ___ die Stellenanzeige genau ___ lesen.", opts:["ohne … zu","um … zu","anstatt … zu","damit"], correct:0, exp:"Etwas fehlt (er hat nicht gelesen) → „ohne … zu\u201C."},
+    {type:"mc", q:"Welche Modalverben stehen NIE mit „um zu\u201C oder „damit\u201C?", opts:["können und müssen","wollen und sollen","dürfen und mögen","wollen und können"], correct:1, exp:"„wollen\u201C und „sollen\u201C nicht mit „um zu\u201C/„damit\u201C."},
+    {type:"gap", q:"___ einen Beruf ___ erlernen, kann man eine Ausbildung machen.", opts:["Um … zu","Ohne … zu","Anstatt … zu","Weder … noch"], correct:0, exp:"Ziel → „um … zu\u201C."},
+    {type:"pair", q:"Ordne Ausbildungsweg und Beschreibung zu:", pairs:[
+      {l:"duale Ausbildung",r:"Betrieb + Berufsschule"},
+      {l:"duales Studium",r:"Studium + Arbeit"},
+      {l:"schulische Ausbildung",r:"Berufsfachschule"},
+      {l:"Studium",r:"Universität oder Fachhochschule"}], exp:"Verschiedene Wege in den Beruf."},
+    {type:"mc", q:"„Anstatt zu jammern, sucht er aktiv eine Stelle.\u201C \u2013 Was drückt der Satz aus?", opts:["ein Ziel","eine fehlende Handlung","eine Alternative","einen Grund"], correct:2, exp:"„anstatt zu\u201C = statt des einen tut er etwas anderes."},
+    {type:"gap", q:"Sie ging zur Beratung, ___ besser informiert ___ sein.", opts:["um … zu","ohne … zu","anstatt … zu","damit"], correct:0, exp:"Ziel → „um … zu\u201C."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Anstatt zu warten hat sie sofort angerufen", exp:"„anstatt zu\u201C + Infinitiv; danach der Hauptsatz."},
+    {type:"mc", q:"Welcher Satz hat verschiedene Subjekte und braucht „damit\u201C?", opts:["Ich spare, … ich ein Auto kaufen kann.","Die Eltern sparen, … die Kinder studieren können.","Ich lese, … ich mich informiere.","Er übt, … er besser wird."], correct:1, exp:"Eltern – Kinder = verschiedene Subjekte → „damit\u201C."},
+    {type:"gap", q:"Man kann eine duale Ausbildung machen, ___ Geld ___ verdienen und gleichzeitig zu lernen.", opts:["um … zu","ohne … zu","anstatt … zu","weder … noch"], correct:0, exp:"Ziel → „um … zu\u201C."},
+    {type:"mc", q:"Was bedeutet „eine Ausbildung anerkennen lassen\u201C?", opts:["eine neue Ausbildung beginnen","den ausländischen Abschluss offiziell bestätigen lassen","eine Prüfung wiederholen","den Beruf wechseln"], correct:1, exp:"Anerkennung = offizielle Bestätigung eines Abschlusses."},
+    {type:"order", q:"Bring den Satz mit „um … zu\u201C in die richtige Reihenfolge:", items:["Ich besuche einen Sprachkurs,","um mein Deutsch","zu verbessern."], exp:"Hauptsatz + Komma → „um\u201C + Mittelteil → „zu\u201C + Infinitiv."},
+    {type:"gap", q:"Er ist Zimmerer geworden, ___ Häuser und Dächer ___ bauen.", opts:["um … zu","ohne … zu","anstatt … zu","damit"], correct:0, exp:"Ziel/Absicht → „um … zu\u201C."},
+    {type:"mc", q:"Welcher Satz ist korrekt?", opts:["Ohne zu fragen, ging er weg.","Ohne fragen zu, ging er weg.","Ohne zu fragen gehen, er weg.","Ohne er zu fragen, ging weg."], correct:0, exp:"„ohne zu\u201C + Infinitiv, dann Hauptsatz."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Sie macht ein duales Studium um Theorie und Praxis zu verbinden", exp:"„um … zu\u201C: Infinitiv am Ende."},
+    {type:"gap", q:"___ eine private Schule ___ bezahlen, wählt er die duale Ausbildung.", opts:["Anstatt … zu","Um … zu","Ohne … zu","Je … desto"], correct:0, exp:"Alternative → „anstatt … zu\u201C."},
+    {type:"mc", q:"„um … zu\u201C kann man oft ersetzen durch …", opts:["weil","damit","obwohl","trotzdem"], correct:1, exp:"„um … zu\u201C und „damit\u201C drücken beide ein Ziel aus."},
+    {type:"order", q:"Bring den Satz mit „anstatt … zu\u201C in die richtige Reihenfolge:", items:["Anstatt","den ganzen Tag fernzusehen,","lernt sie","für die Prüfung."], exp:"„Anstatt\u201C + zu-Infinitiv-Teil → Hauptsatz mit Verb."}
+  ]
+};
+
+const MODUL_4 = {
+  id:4, title:"Modul 4 — Werben Sie für sich!",
+  subtitle:"Bewerbung · Anschreiben ordnen · Mail vs. Telefonat",
+  topics:["Bewerbung","Anschreiben","Vorstellungsgespräch","Mail/Telefonat"],
+  passwordToUnlock:"M4-BEWERBUNG-2026", passwordReward:"L2-MEISTER-2026",
+  tasks:[
+    {type:"reading", text:"Eine gute Bewerbungs-Mail\n\nDer Betreff sollte klar sein, z. B. „Bewerbung als Augenoptikerin\u201C. Die Anrede ist höflich und persönlich. Der Mailtext ist kurz: um welche Stelle es geht und dass das ausführliche Anschreiben im Anhang ist. Am Ende stehen Vor- und Nachname und darunter die Signatur."},
+    {type:"mc", followsReading:true, q:"Wie sollte der Betreff einer Bewerbungs-Mail sein?", opts:["Leer","Klar und eindeutig","Sehr lustig","Möglichst lang"], correct:1, exp:"Der Betreff soll klar und eindeutig sein."},
+    {type:"mc", followsReading:true, q:"Wie ist der Mailtext idealerweise?", opts:["Sehr lang und ausführlich","Kurz und klar","Ohne Anrede","Nur Emojis"], correct:1, exp:"Kurz und klar; das Ausführliche steht im Anhang."},
+    {type:"mc", followsReading:true, q:"Wo steht das ausführliche Anschreiben?", opts:["Im Mailtext","Im Anhang","Im Betreff","In der Signatur"], correct:1, exp:"Das ausführliche Anschreiben kommt in den Anhang."},
+    {type:"order", q:"Bring die Teile einer Bewerbungs-Mail in die richtige Reihenfolge:", items:["Betreff: Bewerbung als Augenoptikerin","Sehr geehrte Frau Börnemann,","im Anhang finden Sie meine Bewerbungsunterlagen.","Mit freundlichen Grüßen","Zaha Jusuf"], exp:"Betreff → Anrede → kurzer Text → Grußformel → Name."},
+    {type:"gap", q:"Eine formelle Bewerbung beginnt mit „Sehr ___ Frau Börnemann,\u201C", opts:["geehrte","liebe","nette","gute"], correct:0, exp:"Formelle Anrede: „Sehr geehrte/r …\u201C"},
+    {type:"mc", q:"Welche E-Mail-Anrede ist für eine Bewerbung passend?", opts:["Hallo!","Hi Hella,","Sehr geehrte Frau Börnemann,","Na, alles klar?"], correct:2, exp:"Formell und mit Namen."},
+    {type:"pair", q:"Ordne Anschreiben-Teil und Bezeichnung zu:", pairs:[
+      {l:"Betreff",r:"worum es geht"},
+      {l:"Anrede",r:"„Sehr geehrte …\u201C"},
+      {l:"Einleitung",r:"Bezug zur Anzeige"},
+      {l:"Grußformel",r:"„Mit freundlichen Grüßen\u201C"}], exp:"Aufbau eines Anschreibens."},
+    {type:"order", q:"Bring die Hauptteile eines Anschreibens in die übliche Reihenfolge:", items:["Betreff","Anrede","Einleitung","bisherige Berufserfahrung","Schlusssatz und Grußformel"], exp:"Betreff → Anrede → Einleitung → Erfahrung → Schluss."},
+    {type:"gap", q:"„Vielen Dank für das informative und freundliche ___.\u201C (am Telefon)", opts:["Telefonat","Anschreiben","Zeugnis","Foto"], correct:0, exp:"Bezug auf ein vorheriges Telefonat."},
+    {type:"mc", q:"Was passt als Schlusssatz im Anschreiben?", opts:["Tschüss, bis dann.","Ich freue mich darauf, Sie persönlich kennenzulernen.","Gib mir den Job.","Keine Ahnung."], correct:1, exp:"Höflicher, formeller Schlusssatz."},
+    {type:"mc", q:"Welcher Ausdruck passt für ein Telefonat (T), nicht für eine Mail?", opts:["Mit freundlichen Grüßen","auf Wiederhören","Im Anhang finden Sie …","Betreff: Bewerbung"], correct:1, exp:"„auf Wiederhören\u201C sagt man am Telefon."},
+    {type:"gap", q:"„Ich rufe an ___ meiner Bewerbung.\u201C", opts:["wegen","trotz","ohne","statt"], correct:0, exp:"„wegen\u201C + Genitiv nennt den Grund."},
+    {type:"mc", q:"Welcher Satz erfragt höflich den Stand der Bewerbung?", opts:["Wann krieg ich endlich Antwort?","Könnten Sie mir sagen, wann Sie eine Entscheidung treffen?","Sag mir, ob ich den Job habe.","Warum dauert das so lange?"], correct:1, exp:"Höfliche, indirekte Frage mit „Könnten Sie …?\u201C"},
+    {type:"pair", q:"Ordne Situation und passenden Ausdruck zu:", pairs:[
+      {l:"Mail-Grußformel",r:"Mit freundlichen Grüßen"},
+      {l:"Telefon-Verabschiedung",r:"auf Wiederhören"},
+      {l:"Anhang erwähnen",r:"Im Anhang finden Sie …"},
+      {l:"Telefon-Beginn",r:"Ich rufe an wegen …"}], exp:"Mail- und Telefon-Ausdrücke unterscheiden."},
+    {type:"gap", q:"Im Vorstellungsgespräch: „Wo sehen Sie sich in fünf ___?\u201C", opts:["Jahren","Tagen","Wochen","Stunden"], correct:0, exp:"Typische Frage nach den Zukunftsplänen."},
+    {type:"mc", q:"Welcher Tipp gilt fürs Vorstellungsgespräch?", opts:["Schlecht über alte Arbeitgeber reden","Selbstbewusst, aber nicht arrogant sein","Möglichst privat werden","Nie Fragen stellen"], correct:1, exp:"Selbstbewusst, aber nicht arrogant auftreten."},
+    {type:"gap", q:"Man sollte ___ über frühere Arbeitgeber reden.", opts:["nie schlecht","immer schlecht","nur schlecht","gar nicht"], correct:0, exp:"Niemals schlecht über frühere Arbeitgeber sprechen."},
+    {type:"mc", q:"Was bedeutet „selbstbewusst\u201C?", opts:["unsicher","von sich selbst überzeugt","ängstlich","arrogant"], correct:1, exp:"selbstbewusst = sicher, von den eigenen Fähigkeiten überzeugt."},
+    {type:"order", q:"Bring eine höfliche Nachfrage-Mail zum Bewerbungsstand in die richtige Reihenfolge:", items:["Sehr geehrte Frau Börnemann,","vielen Dank nochmals für das angenehme Gespräch.","Könnten Sie mir mitteilen, wann Sie eine Entscheidung treffen?","Mit freundlichen Grüßen"], exp:"Anrede → Dank → höfliche Frage → Grußformel."},
+    {type:"gap", q:"„Ich habe nach wie vor großes ___ an der Stelle.\u201C", opts:["Interesse","Problem","Gehalt","Foto"], correct:0, exp:"„Interesse an etwas haben\u201C."},
+    {type:"mc", q:"Welche Frage stellt der Arbeitgeber im Vorstellungsgespräch oft?", opts:["Was kochen Sie gern?","Können Sie mir etwas über sich erzählen?","Wie heißt Ihr Haustier?","Welche Farbe mögen Sie?"], correct:1, exp:"Typische Eröffnungsfrage im Gespräch."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Ich freue mich auf ein persönliches Gespräch", exp:"Höflicher Schlusssatz, Verb auf Position 2."},
+    {type:"gap", q:"In der Stellenanzeige steht „AugenoptikerInnen (m/w/d)\u201C \u2013 das (m/w/d) zeigt, dass alle ___ gemeint sind.", opts:["Geschlechter","Länder","Sprachen","Firmen"], correct:0, exp:"(m/w/d) = männlich/weiblich/divers \u2013 alle Geschlechter."},
+    {type:"mc", q:"Was ist ein „Anschreiben\u201C?", opts:["der Lebenslauf","der Bewerbungsbrief zur Stelle","ein Zeugnis","ein Foto"], correct:1, exp:"Das Anschreiben ist der Bewerbungsbrief."},
+    {type:"pair", q:"Ordne Frage und Gesprächsphase zu:", pairs:[
+      {l:"Können Sie sich vorstellen?",r:"Gesprächsbeginn"},
+      {l:"Was sind Ihre Schwächen?",r:"Selbsteinschätzung"},
+      {l:"Was wissen Sie über uns?",r:"Firmenkenntnis"},
+      {l:"Haben Sie noch Fragen?",r:"Gesprächsende"}], exp:"Typische Phasen im Vorstellungsgespräch."},
+    {type:"gap", q:"„Mit dem Eintritt in Ihr Unternehmen verbinde ich die ___, …\u201C", opts:["Erwartung","Absage","Rechnung","Reise"], correct:0, exp:"Erwartungen an die neue Stelle formulieren."},
+    {type:"mc", q:"Welcher Ausdruck passt sowohl für Mail als auch Telefonat?", opts:["auf Wiederhören","Im Anhang finden Sie …","Ich melde mich wegen meiner Bewerbung.","Betreff: …"], correct:2, exp:"„Ich melde mich wegen meiner Bewerbung\u201C geht in beiden Situationen."},
+    {type:"scramble", q:"Bilde den Satz:", answer:"Im Anhang finden Sie meine Bewerbungsunterlagen", exp:"Aussagesatz: Verb auf Position 2."},
+    {type:"order", q:"Bring eine vollständige kurze Bewerbungs-Mail in die richtige Reihenfolge:", items:["Betreff: Bewerbung als Augenoptikerin","Sehr geehrte Frau Börnemann,","gerne bewerbe ich mich auf Ihre Anzeige.","Mein Anschreiben und Lebenslauf finden Sie im Anhang.","Mit freundlichen Grüßen, Zaha Jusuf"], exp:"Betreff → Anrede → Anliegen → Anhang-Hinweis → Grußformel mit Name."}
+  ]
+};
+
+const MODULES = [MODUL_1, MODUL_2, MODUL_3, MODUL_4];
+let STATIONS = [{ title: MODULES[0].title, tasks: MODULES[0].tasks }];
+
+/* ============ STATE ============ */
+const STORAGE_KEY = "ldma_l2_meinweg_v1";
+let curMod = 0, queue = [], curTask = null, answered = false, selPair = {l:null,r:null}, pairsDone = 0, orderChosen = [], scrambleBuilt = [];
+
+function loadState(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}}catch(_){return{}} }
+function saveState(s){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(_){}}
+function isUnlocked(idx){ return true; }
+function unlock(idx){ const s=loadState(); s.unlocked=s.unlocked||{}; s.unlocked[idx]=true; saveState(s); }
+
+/* ============ HOME ============ */
+function renderHome(){
+  const g=document.getElementById("modgrid"); g.innerHTML="";
+  MODULES.forEach((m,i)=>{
+    const unlocked=isUnlocked(i);
+    const card=document.createElement("div");
+    card.className="modcard"+(unlocked?"":" locked");
+    let tags=m.topics.map(t=>`<span class="badge">${t}</span>`).join("");
+    let inner=`<h3>${m.title}</h3><div class="sub">${m.subtitle}</div><div>${tags}</div>
+      <div class="stat">30 Aufgaben · ~15 Minuten</div>`;
+    if(unlocked){
+      inner+=`<div style="margin-top:14px"><button class="btn" onclick="startModule(${i})">Modul starten</button></div>`;
+    }else{
+      inner+=`<div class="lock-ico">🔒</div>
+      <div class="lockrow">
+        <input type="text" id="pw${i}" placeholder="Passwort eingeben" autocapitalize="characters">
+        <button class="btn" onclick="tryUnlock(${i})">OK</button>
+      </div>
+      <div class="stat" id="pwmsg${i}"></div>`;
+    }
+    card.innerHTML=inner; g.appendChild(card);
+  });
+}
+function tryUnlock(i){
+  const val=(document.getElementById("pw"+i).value||"").trim().toUpperCase();
+  if(val===MODULES[i].passwordToUnlock){ unlock(i); renderHome(); }
+  else{ document.getElementById("pwmsg"+i).textContent="❌ Passwort stimmt nicht."; }
+}
+function goHome(){ document.getElementById("play").style.display="none";
+  document.getElementById("home").style.display="block"; renderHome();
+  window.scrollTo(0,0); }
+
+/* ============ PLAY ============ */
+function startModule(i){
+  curMod=i;
+  STATIONS=[{title:MODULES[i].title,tasks:MODULES[i].tasks}];
+  queue=STATIONS[0].tasks.map((t,idx)=>idx);
+  document.getElementById("home").style.display="none";
+  document.getElementById("play").style.display="block";
+  window.scrollTo(0,0);
+  nextTask();
+}
+function nextTask(){
+  answered=false; selPair={l:null,r:null}; pairsDone=0; orderChosen=[]; scrambleBuilt=[];
+  if(queue.length===0){ return showModuleEnd(); }
+  const total=STATIONS[0].tasks.length;
+  const done=total-queue.length;
+  document.getElementById("bar").style.width=(done/total*100)+"%";
+  document.getElementById("playprog").textContent=`Noch ${queue.length} Aufgabe${queue.length===1?"":"n"}`;
+  curTask=STATIONS[0].tasks[queue[0]];
+  renderTask(curTask);
+}
+function shuffle(a){ a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function renderTask(t){
+  const host=document.getElementById("qhost");
+  let html=`<div class="qcard"><div class="qtype">${typeLabel(t.type)}</div>`;
+  if(t.followsReading && t._readingText){
+    html+=`<div class="reading">${t._readingText}</div>`;
+  }
+  if(t.type==="reading"){
+    html+=`<div class="reading">${t.text}</div>
+      <div class="actions"><button class="btn" onclick="readingNext()">Weiter &rarr;</button></div></div>`;
+    host.innerHTML=html; return;
+  }
+  if(t.type==="mc"||t.type==="gap"){
+    html+=`<div class="qtext">${t.q}</div><div class="opts" id="opts">`;
+    const order=shuffle(t.opts.map((o,idx)=>({o,idx})));
+    order.forEach((item)=>{ html+=`<button class="opt" data-orig="${item.idx}" onclick="pickOpt(this,${item.idx})">${item.o}</button>`; });
+    html+=`</div>`;
+  }
+  if(t.type==="pair"){
+    html+=`<div class="qtext">${t.q}</div><div class="pairwrap">`;
+    const left=t.pairs.map((p,idx)=>({txt:p.l,idx}));
+    const right=shuffle(t.pairs.map((p,idx)=>({txt:p.r,idx})));
+    html+=`<div class="paircol" id="lcol">`;
+    left.forEach(x=>html+=`<div class="pairitem" data-side="l" data-idx="${x.idx}" onclick="pickPair('l',${x.idx},this)">${x.txt}</div>`);
+    html+=`</div><div class="paircol" id="rcol">`;
+    right.forEach(x=>html+=`<div class="pairitem" data-side="r" data-idx="${x.idx}" onclick="pickPair('r',${x.idx},this)">${x.txt}</div>`);
+    html+=`</div></div>`;
+  }
+  if(t.type==="scramble"){
+    html+=`<div class="qtext">${t.q}</div>
+      <div class="tokens" id="built"></div>
+      <div class="bank" id="bank"></div>`;
+  }
+  if(t.type==="order"){
+    html+=`<div class="qtext">${t.q}</div><div class="orderlist" id="orderlist"></div>`;
+  }
+  html+=`<div class="feedback" id="fb"></div>
+    <div class="actions" id="acts"></div></div>`;
+  host.innerHTML=html;
+
+  if(t.type==="scramble"){
+    const words=t.answer.split(" ");
+    const bank=document.getElementById("bank");
+    shuffle(words.map((w,i)=>({w,i}))).forEach(x=>{
+      const b=document.createElement("button");
+      b.className="token"; b.textContent=x.w;
+      b.onclick=()=>addToken(b,x.w);
+      bank.appendChild(b);
+    });
+    setActs([{label:"Zurücksetzen",cls:"ghost",fn:resetScramble},{label:"Prüfen",cls:"",fn:checkScramble}]);
+  }
+  if(t.type==="order"){
+    const list=document.getElementById("orderlist");
+    shuffle(t.items.map((it,i)=>({it,i}))).forEach(x=>{
+      const d=document.createElement("div");
+      d.className="orderitem"; d.dataset.orig=x.i;
+      d.innerHTML=`<span class="num"></span><span>${x.it}</span>`;
+      d.onclick=()=>pickOrder(d);
+      list.appendChild(d);
+    });
+    setActs([{label:"Zurücksetzen",cls:"ghost",fn:resetOrder},{label:"Prüfen",cls:"",fn:checkOrder}]);
+  }
+}
+function typeLabel(t){return{reading:"Lesetext",mc:"Multiple Choice",gap:"Lückentext",pair:"Zuordnen",scramble:"Wortsalat",order:"Reihenfolge"}[t]||t;}
+
+function readingNext(){
+  const idx=queue[0];
+  const txt=STATIONS[0].tasks[idx].text;
+  for(let k=idx+1;k<STATIONS[0].tasks.length;k++){
+    if(STATIONS[0].tasks[k].followsReading){ STATIONS[0].tasks[k]._readingText=txt; }
+    else break;
+  }
+  queue.shift(); nextTask();
+}
+
+function setActs(arr){
+  const a=document.getElementById("acts"); a.innerHTML="";
+  arr.forEach(x=>{ const b=document.createElement("button"); b.className="btn "+x.cls; b.textContent=x.label; b.onclick=x.fn; a.appendChild(b); });
+}
+
+/* MC / GAP */
+function pickOpt(el,orig){
+  if(answered)return; answered=true;
+  const correct=curTask.correct;
+  document.querySelectorAll("#opts .opt").forEach(b=>{
+    const o=parseInt(b.dataset.orig);
+    if(o===correct)b.classList.add("ok");
+    if(b===el&&o!==correct)b.classList.add("bad");
+    b.style.pointerEvents="none";
+  });
+  finishTask(orig===correct);
+}
+
+/* PAIR */
+function pickPair(side,idx,el){
+  if(el.classList.contains("ok"))return;
+  document.querySelectorAll(`.pairitem[data-side="${side}"]`).forEach(x=>{if(!x.classList.contains("ok"))x.classList.remove("sel");});
+  selPair[side]=idx; el.classList.add("sel");
+  if(selPair.l!==null&&selPair.r!==null){
+    const ok=selPair.l===selPair.r;
+    const lEl=document.querySelector(`.pairitem[data-side="l"][data-idx="${selPair.l}"]`);
+    const rEl=document.querySelector(`.pairitem[data-side="r"][data-idx="${selPair.r}"]`);
+    if(ok){
+      lEl.classList.remove("sel");rEl.classList.remove("sel");
+      lEl.classList.add("ok");rEl.classList.add("ok");
+      lEl.style.pointerEvents="none";rEl.style.pointerEvents="none";
+      pairsDone++;
+      if(pairsDone===curTask.pairs.length){ finishTask(true); }
+    }else{
+      lEl.classList.add("bad");rEl.classList.add("bad");
+      setTimeout(()=>{lEl.classList.remove("bad","sel");rEl.classList.remove("bad","sel");},600);
+    }
+    selPair={l:null,r:null};
+  }
+}
+
+/* SCRAMBLE */
+function addToken(btn,word){
+  if(answered)return;
+  btn.classList.add("placed"); btn.style.display="none";
+  scrambleBuilt.push({word,btn});
+  renderBuilt();
+}
+function renderBuilt(){
+  const b=document.getElementById("built"); b.innerHTML="";
+  scrambleBuilt.forEach((x,i)=>{
+    const t=document.createElement("button");
+    t.className="token"; t.textContent=x.word;
+    t.onclick=()=>{ if(answered)return; x.btn.style.display=""; x.btn.classList.remove("placed"); scrambleBuilt.splice(i,1); renderBuilt(); };
+    b.appendChild(t);
+  });
+}
+function resetScramble(){ if(answered)return; scrambleBuilt.forEach(x=>{x.btn.style.display="";x.btn.classList.remove("placed");}); scrambleBuilt=[]; renderBuilt(); }
+function checkScramble(){
+  if(answered)return;
+  const built=scrambleBuilt.map(x=>x.word).join(" ");
+  const ok=built.trim()===curTask.answer.trim();
+  answered=true;
+  document.querySelectorAll("#bank .token").forEach(b=>b.style.pointerEvents="none");
+  finishTask(ok, ok?null:`Richtig wäre: „${curTask.answer}\u201C`);
+}
+
+/* ORDER */
+function pickOrder(el){
+  if(answered)return;
+  if(el.classList.contains("chosen")){
+    const orig=parseInt(el.dataset.orig);
+    orderChosen=orderChosen.filter(o=>o!==orig);
+    el.classList.remove("chosen");
+  }else{
+    orderChosen.push(parseInt(el.dataset.orig));
+    el.classList.add("chosen");
+  }
+  renumberOrder();
+}
+function renumberOrder(){
+  document.querySelectorAll("#orderlist .orderitem").forEach(el=>{
+    const orig=parseInt(el.dataset.orig);
+    const pos=orderChosen.indexOf(orig);
+    el.querySelector(".num").textContent= pos>=0 ? (pos+1) : "";
+  });
+}
+function resetOrder(){ if(answered)return; orderChosen=[]; document.querySelectorAll("#orderlist .orderitem").forEach(el=>el.classList.remove("chosen")); renumberOrder(); }
+function checkOrder(){
+  if(answered)return;
+  if(orderChosen.length!==curTask.items.length){
+    const fb=document.getElementById("fb"); fb.className="feedback show wrong";
+    fb.textContent="Bitte ordne zuerst alle Teile."; return;
+  }
+  const ok=orderChosen.every((v,i)=>v===i);
+  answered=true;
+  document.querySelectorAll("#orderlist .orderitem").forEach(el=>el.style.pointerEvents="none");
+  finishTask(ok, ok?null:"Die Reihenfolge stimmt noch nicht ganz.");
+}
+
+/* FINISH ONE TASK */
+function finishTask(ok, extraMsg){
+  const fb=document.getElementById("fb");
+  if(fb){
+    fb.className="feedback show "+(ok?"good":"wrong");
+    fb.innerHTML=(ok?"✅ Richtig! ":"❌ Leider nicht. ")+(curTask.exp||"")+(extraMsg?("<br>"+extraMsg):"");
+  }
+  const idx=queue.shift();
+  if(!ok){ queue.push(idx); }
+  const acts=document.getElementById("acts");
+  acts.innerHTML=""; const b=document.createElement("button"); b.className="btn"; b.style.flex="1";
+  b.textContent="Weiter →"; b.onclick=nextTask; acts.appendChild(b);
+}
+
+/* MODULE END */
+function showModuleEnd(){
+  const m=MODULES[curMod];
+  const host=document.getElementById("qhost");
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("playprog").textContent="Geschafft!";
+  const savedName=loadState().name||"";
+  if(curMod<MODULES.length-1){
+    unlock(curMod+1);
+    host.innerHTML=`<div class="endcard">
+      <h2>🎉 Modul ${m.id} geschafft!</h2>
+      <p>Super gemacht! Du kannst jederzeit ein anderes Modul wählen.</p>
+      <p style="margin-top:14px;font-weight:600;color:var(--accent-deep)">Hol dir dein Modul-Zertifikat:</p>
+      <div class="namerow">
+        <input type="text" id="certname" placeholder="Dein Name" value="${escapeHtml(savedName)}">
+        <button class="btn" onclick="makeCert(${curMod})">Zertifikat</button>
+      </div>
+      <div id="certhost"></div>
+      <div class="actions"><button class="btn ghost" onclick="goHome()">Zur Übersicht</button></div>
+    </div>`;
+  }else{
+    if(window.goatcounter&&window.goatcounter.count){
+      try{window.goatcounter.count({path:"lektion2-lernpfad-completed",title:"Lektion 2 abgeschlossen",event:true});}catch(_){}
+    }
+    host.innerHTML=`<div class="endcard">
+      <h2>🏆 Lektion 2 abgeschlossen!</h2>
+      <p>Du hast alle 4 Module von „Mein Weg in den Beruf\u201C geschafft. Erstelle dir dein Abschluss-Zertifikat:</p>
+      <div class="namerow">
+        <input type="text" id="certname" placeholder="Dein Name" value="${escapeHtml(savedName)}">
+        <button class="btn" onclick="makeCert(${curMod})">Zertifikat</button>
+      </div>
+      <div id="certhost"></div>
+      <div class="actions"><button class="btn ghost" onclick="goHome()">Zur Übersicht</button></div>
+    </div>`;
+  }
+  window.scrollTo(0,0);
+}
+function escapeHtml(s){return String(s).replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));}
+function copyPw(pw){ try{navigator.clipboard.writeText(pw);}catch(_){ } }
+
+/* CERTIFICATE */
+function makeCert(modIdx){
+  const name=(document.getElementById("certname").value||"Teilnehmer/in").trim();
+  const s=loadState(); s.name=name; saveState(s);
+  const date=new Date().toLocaleDateString("de-DE");
+  const isFinal=(modIdx===MODULES.length-1);
+  const m=MODULES[modIdx];
+  const titleLine=isFinal ? "Lektion 2 — Mein Weg in den Beruf" : m.title.replace("—","–");
+  const subLine=isFinal ? "Aspekte Beruf B2 · 120 Aufgaben · 4 Module" : "Lektion 2 — Mein Weg in den Beruf · 30 Aufgaben";
+  const head=isFinal ? "Zertifikat" : "Modul-Zertifikat";
+  const fname=isFinal ? "zertifikat-lektion2.svg" : `zertifikat-lektion2-modul${m.id}.svg`;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="440" viewBox="0 0 640 440">
+    <rect width="640" height="440" fill="#fff" stroke="#2d6a6a" stroke-width="10"/>
+    <rect x="22" y="22" width="596" height="396" fill="none" stroke="#d8eaea" stroke-width="3"/>
+    <text x="320" y="90" text-anchor="middle" font-family="Georgia,serif" font-size="30" fill="#1d4747" font-weight="bold">${head}</text>
+    <text x="320" y="140" text-anchor="middle" font-family="Arial" font-size="15" fill="#5d6b78">Lern Deutsch mit Arash</text>
+    <text x="320" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="26" fill="#1f2730">${escapeXml(name)}</text>
+    <text x="320" y="245" text-anchor="middle" font-family="Arial" font-size="15" fill="#5d6b78">${isFinal?"hat die Lektion erfolgreich abgeschlossen:":"hat dieses Modul erfolgreich abgeschlossen:"}</text>
+    <text x="320" y="290" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#2d6a6a" font-weight="bold">${escapeXml(titleLine)}</text>
+    <text x="320" y="320" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6b78">${escapeXml(subLine)}</text>
+    <text x="320" y="380" text-anchor="middle" font-family="Arial" font-size="13" fill="#5d6b78">${date}</text>
+    <text x="320" y="405" text-anchor="middle" font-family="Arial" font-size="12" fill="#2d6a6a">Arash Guitoo</text>
+  </svg>`;
+  const blob=new Blob([svg],{type:"image/svg+xml"});
+  const url=URL.createObjectURL(blob);
+  document.getElementById("certhost").innerHTML=
+    `<div style="margin:14px 0">${svg}</div>
+     <a class="btn" href="${url}" download="${fname}" style="display:inline-block;text-decoration:none">Zertifikat herunterladen</a>`;
+}
+function escapeXml(s){return s.replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));}
+
+/* INIT */
+renderHome();
+</script>
+</body>
+</html>

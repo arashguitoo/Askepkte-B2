@@ -341,7 +341,7 @@ let curMod = 0, queue = [], curTask = null, answered = false, selPair = {l:null,
 
 function loadState(){ try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||{}}catch(_){return{}} }
 function saveState(s){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(_){}}
-function isUnlocked(idx){ if(idx===0)return true; const s=loadState(); return !!(s.unlocked&&s.unlocked[idx]); }
+function isUnlocked(idx){ return true; }
 function unlock(idx){ const s=loadState(); s.unlocked=s.unlocked||{}; s.unlocked[idx]=true; saveState(s); }
 
 /* ============ HOME ============ */
@@ -607,11 +607,8 @@ function showModuleEnd(){
     unlock(curMod+1);
     host.innerHTML=`<div class="endcard">
       <h2>🎉 Modul ${m.id} geschafft!</h2>
-      <p>Super gemacht! Hier ist dein Passwort für das nächste Modul:</p>
-      <button class="pwbox" onclick="copyPw('${m.passwordReward}')">
-        <small>Passwort (zum Kopieren tippen)</small>${m.passwordReward}</button>
-      <p style="font-size:.85rem;color:var(--muted)">Notiere es dir \u2013 du brauchst es, um Modul ${m.id+1} freizuschalten.</p>
-      <p style="margin-top:18px;font-weight:600;color:var(--accent-deep)">Hol dir dein Modul-Zertifikat:</p>
+      <p>Super gemacht! Du kannst jederzeit ein anderes Modul wählen.</p>
+      <p style="margin-top:14px;font-weight:600;color:var(--accent-deep)">Hol dir dein Modul-Zertifikat:</p>
       <div class="namerow">
         <input type="text" id="certname" placeholder="Dein Name" value="${escapeHtml(savedName)}">
         <button class="btn" onclick="makeCert(${curMod})">Zertifikat</button>

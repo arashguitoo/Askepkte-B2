@@ -8,6 +8,7 @@ Erstellt von Arash Guitoo · veröffentlicht über GitHub Pages.
 - `index.html` — Startseite mit Buchcover und Übersichtskarten
 - `cover.jpg` — Buchcover
 - `lektion1-uebung.html` — **Lektion 1: Mein Beruf** (4 Module, 120 Aufgaben)
+- `lektion2-uebung.html` — **Lektion 2: Mein Weg in den Beruf** (Grammatik + 4 Module, 120 Aufgaben)
 - `relativsaetze-uebung.html` — **Zusatzlektion: Relativsätze** (Grammatik + 3 Module, 90 Aufgaben)
 
 ## Lektion 1 — Mein Beruf
@@ -26,6 +27,17 @@ Erstellt von Arash Guitoo · veröffentlicht über GitHub Pages.
 - Fortschritt wird lokal gespeichert (localStorage)
 - Namenseingabe und herunterladbares Zertifikat **nach jedem Modul** sowie ein Abschluss-Zertifikat
 - Mobil-optimiert (Smartphone-tauglich)
+
+## Lektion 2 — Mein Weg in den Beruf
+
+Mit kompaktem Grammatik-Erklärteil (Petrolblau) oben und 4 Übungsmodulen.
+
+| Modul | Thema | Schwerpunkt |
+|-------|-------|-------------|
+| 1 | Auf Jobsuche | zweiteilige Konnektoren (sowohl…als auch, weder…noch, je…desto …) |
+| 2 | Ein Lebenslauf | Aufbau & Wortschatz des Lebenslaufs |
+| 3 | Schule – Betrieb – Uni? | um/ohne/(an)statt zu + Infinitiv, damit |
+| 4 | Werben Sie für sich! | Bewerbung, Anschreiben ordnen, Mail vs. Telefonat |
 
 ## Zusatzlektion — Relativsätze
 
